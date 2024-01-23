@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation';
 export default async function DashboardEditPage({ params }: { params: { postid: string } }) {
     // title, slug, content, summary, userId, status, featuredImage
     const id = params.postid;
+    // console.log(id)
     const [post, categories] = await Promise.all([
         fetchPostById(id),
         fetchCategories(),

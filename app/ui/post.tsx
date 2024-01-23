@@ -39,7 +39,7 @@ export default function Post({ post }: { post: Post}) {
                         </a>
                     </h3>
                     <p className="min-h-[48px] mt-5 text-sm leading-6 text-gray-600">
-                        {post.summary}
+                        {post.content}
                     </p>
                 </div>
                 <div className="mt-6 flex border-t border-gray-900/5 pt-6">

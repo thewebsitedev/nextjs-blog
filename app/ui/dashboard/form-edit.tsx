@@ -10,6 +10,8 @@ export default function DashboardFormEditPost({ post } : { post: Post}) {
     // const initialState = { message: null, errors: {} };
     // const [state, dispatch] = useFormState(createPost, initialState);
 
+    console.log(post);
+
     const updatePostWithId = updatePost.bind(null, post.postid);
 
     return (
@@ -33,6 +35,35 @@ export default function DashboardFormEditPost({ post } : { post: Post}) {
                                         autoComplete="title"
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         defaultValue={post.title}
+                                    />
+                                </div>
+                            </div>
+                            <div id="customer-error-title" aria-live="polite" aria-atomic="true">
+                                {/* {state.errors?.title &&
+                                    state.errors.title.map((error: string) => (
+                                    <p className="mt-2 text-sm text-red-500" key={error}>
+                                        {error}
+                                    </p>
+                                ))} */}
+                            </div>
+                        </div>
+
+                        <div className="col-span-full">
+                            <div className="col-span-full">
+                                <label
+                                    htmlFor="slug"
+                                    className="block text-sm font-medium leading-6 text-gray-900"
+                                >
+                                    Slug
+                                </label>
+                                <div className="mt-2">
+                                    <input
+                                        type="text"
+                                        name="slug"
+                                        id="slug"
+                                        autoComplete="slug"
+                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        defaultValue={post.slug}
                                     />
                                 </div>
                             </div>

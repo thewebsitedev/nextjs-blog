@@ -3,7 +3,14 @@ import { Suspense } from "react";
 import PostsTable from "@/app/ui/dashboard/posts/table";
 import { PostsTableSkeleton } from '@/app/ui/skeletons';
 
-export default function DashboardPostsPage() {
+export default function DashboardPostsPage({
+    searchParams,
+  }: {
+    searchParams?: {
+      query?: string,
+      page?: string,
+    },
+  }) {
     return (
         <DashboardPageLayout>
             <div className="sm:flex sm:items-center">
@@ -28,7 +35,7 @@ export default function DashboardPostsPage() {
             </div>
             <div className="-mx-4 mt-8 sm:-mx-0">
                 <Suspense fallback={<PostsTableSkeleton />}>
-                    <PostsTable />
+                    <PostsTable searchParams={searchParams} />
                 </Suspense>
             </div>
         </DashboardPageLayout>

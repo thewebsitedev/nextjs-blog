@@ -51,13 +51,14 @@ export async function createPost(formData: FormData) {
 }
 
 // Use Zod to update the expected types
-const UpdatePost = PostFormSchema.omit({ postid: true, createdat: true, slug: true, summary: true, featuredimage: true, userid: true });
+const UpdatePost = PostFormSchema.omit({ postid: true, createdat: true, summary: true, featuredimage: true, userid: true });
 
 export async function updatePost(id: string, formData: FormData) {
-    const { title, content, status } = UpdatePost.parse({
+    const { title, content, status, slug } = UpdatePost.parse({
         title: formData.get('title'),
         content: formData.get('content'),
         status: formData.get('status'),
+        slug: formData.get('slug'),
     });
    
     const summary = content.substring(0, 100);
@@ -65,7 +66,7 @@ export async function updatePost(id: string, formData: FormData) {
     try {
         await sql`
         UPDATE posts
-        SET title = ${title}, content = ${content}, status = ${status}, summary = ${summary}
+        SET title = ${title}, content = ${content}, status = ${status}, summary = ${summary}, slug = ${slug}
         WHERE postid = ${id}
         `;
     } catch (error) {

@@ -33,51 +33,78 @@ export function TableRowSkeleton() {
     );
 }
 
+export function PaginationSkeleton() {
+    return (
+        <div
+            className="flex items-center justify-between border-t border-gray-200 bg-white py-5"
+            aria-label="Pagination"
+        >
+            <div className="hidden sm:block">
+                <div className="h-5 w-48 rounded bg-gray-100  whitespace-nowrap">
+                </div>
+            </div>
+            <div className="flex flex-1 justify-between sm:justify-end">
+                <div
+                    className="relative inline-flex rounded-md w-20 h-9 bg-gray-100 whitespace-nowrap"
+                >
+                </div>
+                <div
+                    className="relative ml-3 inline-flex  rounded-md w-14 h-9 bg-gray-100 whitespace-nowrap"
+                >
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export function PostsTableSkeleton() {
     return (
-        <table className="min-w-full divide-y divide-gray-300">
-            <thead>
-                <tr>
-                    <th
-                        scope="col"
-                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                    >
-                        Title
-                    </th>
-                    <th
-                        scope="col"
-                        className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
-                    >
-                        Created At
-                    </th>
-                    <th
-                        scope="col"
-                        className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
-                    >
-                        Status
-                    </th>
-                    <th
-                        scope="col"
-                        className="relative py-3.5 pl-3 pr-4 sm:pr-0"
-                    >
-                        <span className="sr-only">Edit</span>
-                        <span className="sr-only">Delete</span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 bg-white">
-                <TableRowSkeleton />
-                <TableRowSkeleton />
-                <TableRowSkeleton />
-                <TableRowSkeleton />
-                <TableRowSkeleton />
-                <TableRowSkeleton />
-                <TableRowSkeleton />
-                <TableRowSkeleton />
-                <TableRowSkeleton />
-                <TableRowSkeleton />
-            </tbody>
-        </table>
+        <>
+            <table className="min-w-full divide-y divide-gray-300">
+                <thead>
+                    <tr>
+                        <th
+                            scope="col"
+                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                        >
+                            Title
+                        </th>
+                        <th
+                            scope="col"
+                            className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+                        >
+                            Created At
+                        </th>
+                        <th
+                            scope="col"
+                            className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+                        >
+                            Status
+                        </th>
+                        <th
+                            scope="col"
+                            className="relative py-3.5 pl-3 pr-4 sm:pr-0"
+                        >
+                            <span className="sr-only">Edit</span>
+                            <span className="sr-only">Delete</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 bg-white">
+                    <TableRowSkeleton />
+                    <TableRowSkeleton />
+                    <TableRowSkeleton />
+                    <TableRowSkeleton />
+                    <TableRowSkeleton />
+                    <TableRowSkeleton />
+                    <TableRowSkeleton />
+                    <TableRowSkeleton />
+                    <TableRowSkeleton />
+                    <TableRowSkeleton />
+                </tbody>
+            </table>
+            <PaginationSkeleton />
+        </>
     );
 }
 
