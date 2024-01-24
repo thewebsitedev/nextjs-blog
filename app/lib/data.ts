@@ -17,6 +17,16 @@ export async function getUser(email: string | undefined | null) {
     }
 }
 
+export async function getUserById(id: string | undefined | null) {
+    try {
+        const user = await sql`SELECT * FROM users WHERE userid=${id}`;
+        return user.rows[0] as User;
+    } catch (error) {
+        console.error("Failed to fetch user:", error);
+        throw new Error("Failed to fetch user.");
+    }
+}
+
 export async function fetchLatestPosts(userId: string) {
     noStore();
     try {
@@ -95,8 +105,10 @@ export async function fetchPosts() {
         SELECT 
             posts.postid,
             posts.title,
+            posts.slug,
             posts.content,
             posts.createdAt,
+            posts.updatedAt,
             posts.userid
         FROM posts
         WHERE posts.status = 'published'
@@ -119,10 +131,12 @@ export async function fetchPostBySlug(slug: string) {
         SELECT 
             posts.postid,
             posts.title,
+            posts.summary,
             posts.featuredimage,
             posts.content,
             posts.status,
-            posts.createdAt
+            posts.createdAt,
+            posts.userid
         FROM posts
         WHERE posts.slug = ${slug};`;
 

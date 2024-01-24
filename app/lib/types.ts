@@ -5,6 +5,7 @@ export type Post = {
     summary: string; // created using the first 100 characters of content
     featuredimage: string; // optional
     createdat: Date;
+    updatedat: Date;
     category: string;
     content: string;
     status: 'published' | 'draft' | 'archived';

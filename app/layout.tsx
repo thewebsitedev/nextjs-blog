@@ -1,12 +1,19 @@
 import type { Metadata } from "next";
-// import { Inter } from "next/font/google";
 import "./globals.css";
-
-// const inter = Inter({ subsets: ["latin"] });
+import { BASE_URL } from "./lib/constants";
 
 export const metadata: Metadata = {
-  title: "Next Gen Blog",
-  description: "A Next.js blog starter with Tailwind CSS and TypeScript",
+  title: {
+    template: '%s | NextGen Blog',
+    default: 'NextGen Blog',
+  },
+  description:  "A blog for the next generation",
+  metadataBase: BASE_URL,
+  generator: 'Next.js',
+  applicationName: 'NexGen Blog',
+  referrer: 'origin-when-cross-origin',
+  keywords: ['Next.js', 'React', 'JavaScript'],
+  creator: 'Gautam Thapar',
 };
 
 export default function RootLayout({
@@ -16,7 +23,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full antialiased">
-      {/* className={inter.className + " h-full"} */}
       <body className={"h-full dark:bg-gray-800"}>{children}</body>
     </html>
   );
