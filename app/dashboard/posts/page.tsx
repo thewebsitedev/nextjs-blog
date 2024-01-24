@@ -2,6 +2,8 @@ import DashboardPageLayout from '@/app/ui/dashboard/layout';
 import { Suspense } from "react";
 import PostsTable from "@/app/ui/dashboard/posts/table";
 import { PostsTableSkeleton } from '@/app/ui/skeletons';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function DashboardPostsPage({
     searchParams,
@@ -13,6 +15,7 @@ export default function DashboardPostsPage({
   }) {
     return (
         <DashboardPageLayout>
+            <ToastContainer />
             <div className="sm:flex sm:items-center">
                 <div className="sm:flex-auto">
                     <h1 className="text-base font-semibold leading-6 text-gray-900">
