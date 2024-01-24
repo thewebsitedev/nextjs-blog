@@ -1,29 +1,4 @@
-const navigation = {
-    solutions: [
-        { name: "Marketing", href: "#" },
-        { name: "Analytics", href: "#" },
-        { name: "Commerce", href: "#" },
-        { name: "Insights", href: "#" },
-    ],
-    support: [
-        { name: "Pricing", href: "#" },
-        { name: "Documentation", href: "#" },
-        { name: "Guides", href: "#" },
-        { name: "API Status", href: "#" },
-    ],
-    company: [
-        { name: "About", href: "#" },
-        { name: "Blog", href: "#" },
-        { name: "Jobs", href: "#" },
-        { name: "Press", href: "#" },
-        { name: "Partners", href: "#" },
-    ],
-    legal: [
-        { name: "Claim", href: "#" },
-        { name: "Privacy", href: "#" },
-        { name: "Terms", href: "#" },
-    ],
-    social: [
+const social = [
         {
             name: "Facebook",
             href: "#",
@@ -50,15 +25,6 @@ const navigation = {
                 </svg>
             ),
         },
-        // {
-        //     name: "X",
-        //     href: "#",
-        //     icon: (props: any) => (
-        //         <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-        //             <path d="M13.6823 10.6218L20.2391 3H18.6854L12.9921 9.61788L8.44486 3H3.2002L10.0765 13.0074L3.2002 21H4.75404L10.7663 14.0113L15.5685 21H20.8131L13.6819 10.6218H13.6823ZM11.5541 13.0956L10.8574 12.0991L5.31391 4.16971H7.70053L12.1742 10.5689L12.8709 11.5655L18.6861 19.8835H16.2995L11.5541 13.096V13.0956Z" />
-        //         </svg>
-        //     ),
-        // },
         {
             name: "GitHub",
             href: "#",
@@ -72,21 +38,7 @@ const navigation = {
                 </svg>
             ),
         },
-        // {
-        //     name: "YouTube",
-        //     href: "#",
-        //     icon: (props: any) => (
-        //         <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-        //             <path
-        //                 fillRule="evenodd"
-        //                 d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z"
-        //                 clipRule="evenodd"
-        //             />
-        //         </svg>
-        //     ),
-        // },
-    ],
-};
+];
 
 export default function Footer() {
     return (
@@ -94,7 +46,7 @@ export default function Footer() {
             <h2 id="footer-heading" className="sr-only">
                 Footer
             </h2>
-            <div className="max-w-7xl px-6 pb-8">
+            <div className="max-w-7xl mx-auto px-6 pb-8">
                 <div className="border-t border-gray-900/10 pt-8  lg:flex lg:items-center lg:justify-between">
                     <div>
                         <h3 className="text-sm font-semibold leading-6 text-gray-900">
@@ -128,10 +80,10 @@ export default function Footer() {
                         </div>
                     </form>
                 </div>
-
-                <div className="mt-8 border-t border-gray-900/10 pt-8 md:flex md:items-center md:justify-between">
+            </div>
+            <div className="mx-auto max-w-7xl px-2 pb-8 sm:px-4 lg:px-8 mt-8 border-t border-gray-900/10 pt-8 md:flex md:items-center md:justify-between">
                     <div className="flex space-x-6 md:order-2">
-                        {navigation.social.map((item) => (
+                        {social.map((item) => (
                             <a
                                 key={item.name}
                                 href={item.href}
@@ -148,7 +100,6 @@ export default function Footer() {
                     <p className="mt-8 text-xs leading-5 text-gray-500 md:order-1 md:mt-0">
                         &copy; 2024 Next Gen Blog, Inc. All rights reserved.
                     </p>
-                </div>
             </div>
         </footer>
     );
