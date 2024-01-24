@@ -12,8 +12,6 @@ export default function DashboardFormCreatePost() {
     const initialState = { message: "", errors: {} };
     const [state, dispatch] = useFormState(createPost, initialState);
 
-    console.log(state);
-
     return (
         <form action={dispatch}>
             <div className="space-y-12">
