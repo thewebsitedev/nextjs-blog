@@ -1,3 +1,5 @@
+'use client';
+
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { useFormState } from 'react-dom';
 import { updatePost } from "@/app/lib/actions";
@@ -5,7 +7,8 @@ import { Category, Post } from "@/app/lib/types";
 import InputCategory from "./input-category";
 import { Suspense } from "react";
 import { InputCategorySkeleton } from "../skeletons";
-import { fetchPostCategories } from "@/app/lib/data";
+import { useEffect } from "react";
+import { toast } from 'react-toastify';
 
 export default function DashboardFormEditPost(
     { post, categories, selected } : { post: Post, categories: Category[], selected: string[]}
@@ -13,10 +16,22 @@ export default function DashboardFormEditPost(
 
     const updatePostWithId = updatePost.bind(null, post.postid);
 
-    console.log(post);
+    const initialState = { message: "", errors: {} };
+    const [state, dispatch] = useFormState(updatePostWithId, initialState);
+
+    useEffect(() => {
+        if ('success' === state.message) {
+            toast.success("Post edited successfully");
+        }
+        // check errors length
+        const length = state.errors?.title?.length || 0;
+        if ( length > 0 ) {
+            toast.error("Please fix the errors");
+        }
+    }, [state]);
 
     return (
-        <form action={updatePostWithId}>
+        <form action={dispatch}>
             <div className="space-y-12">
                 <div className="border-b border-gray-900/10 pb-12">
                     <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -39,13 +54,13 @@ export default function DashboardFormEditPost(
                                     />
                                 </div>
                             </div>
-                            <div id="customer-error-title" aria-live="polite" aria-atomic="true">
-                                {/* {state.errors?.title &&
+                            <div id="error-title" aria-live="polite" aria-atomic="true">
+                                {state.errors?.title &&
                                     state.errors.title.map((error: string) => (
                                     <p className="mt-2 text-sm text-red-500" key={error}>
                                         {error}
                                     </p>
-                                ))} */}
+                                ))}
                             </div>
                         </div>
 
@@ -68,13 +83,13 @@ export default function DashboardFormEditPost(
                                     />
                                 </div>
                             </div>
-                            <div id="customer-error-title" aria-live="polite" aria-atomic="true">
-                                {/* {state.errors?.title &&
-                                    state.errors.title.map((error: string) => (
+                            <div id="error-slug" aria-live="polite" aria-atomic="true">
+                                {state.errors?.slug &&
+                                    state.errors.slug.map((error: string) => (
                                     <p className="mt-2 text-sm text-red-500" key={error}>
                                         {error}
                                     </p>
-                                ))} */}
+                                ))}
                             </div>
                         </div>
 
@@ -94,9 +109,14 @@ export default function DashboardFormEditPost(
                                     defaultValue={post.content}
                                 />
                             </div>
-                            <p className="mt-3 text-sm leading-6 text-gray-600">
-                                Write in as much detail as possible.
-                            </p>
+                            <div id="error-content" aria-live="polite" aria-atomic="true">
+                                {state.errors?.content &&
+                                    state.errors.content.map((error: string) => (
+                                    <p className="mt-2 text-sm text-red-500" key={error}>
+                                        {error}
+                                    </p>
+                                ))}
+                            </div>
                         </div>
 
                         <div className="col-span-full">

@@ -1,6 +1,6 @@
 import { Category } from "@/app/lib/types";
 
-export default async function InputCategory({ categories, selected }:{
+export default function InputCategory({ categories, selected }:{
     categories: Category[],
     selected: string[] | undefined,
 }) {

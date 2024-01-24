@@ -40,6 +40,7 @@ export async function fetchLatestPosts(userId: string) {
 }
 
 export async function fetchPostById(postId: string) {
+    noStore();
     try {
         const data = await sql<Post>`
         SELECT 

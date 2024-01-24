@@ -71,8 +71,6 @@ export async function createPost(prevState: State, formData: FormData) {
     const slug = slugify(title);
     // generate a summary from content
     const summary = content.substring(0, 200);
-    // get current date
-    const createdat = new Date().toISOString().split('T')[0];
     // get user id
     const session = await auth();
     const email = session?.user?.email;
@@ -85,7 +83,7 @@ export async function createPost(prevState: State, formData: FormData) {
     try {
         const newPost = await sql`
             INSERT INTO posts (title, content, status, createdat, slug, summary, userid)
-            VALUES (${title}, ${content}, ${status}, ${createdat}, ${slug}, ${summary}, ${user.userid})
+            VALUES (${title}, ${content}, ${status}, NOW(), ${slug}, ${summary}, ${user.userid})
             RETURNING postid
         `;
         postid = newPost.rows[0].postid;
@@ -101,7 +99,10 @@ export async function createPost(prevState: State, formData: FormData) {
     }
 
     revalidatePath('/dashboard/posts');
-    redirect('/dashboard/posts');
+
+    return { message: 'success' };
+
+    // redirect('/dashboard/posts');
 }
 
 export async function deletePostCategoryRelation(postid: string) {
@@ -121,24 +122,35 @@ export async function deletePostCategoryRelation(postid: string) {
 // Use Zod to update the expected types
 const UpdatePost = PostFormSchema.omit({ postid: true, createdat: true, summary: true, featuredimage: true, userid: true });
 
-export async function updatePost(id: string, formData: FormData) {
+export async function updatePost(id: string, prevState: State, formData: FormData) {
     // throw new Error('Failed to edit post');
-    const { title, content, status, slug } = UpdatePost.parse({
+    const validatedFields = UpdatePost.safeParse({
         title: formData.get('title'),
         content: formData.get('content'),
         status: formData.get('status'),
         slug: formData.get('slug'),
     });
 
+    if ( ! validatedFields.success ) {
+		return {
+		  errors: validatedFields.error.flatten().fieldErrors,
+		  message: 'Missing Fields. Failed to Update Invoice.',
+		};
+	}
+
+    const { title, content, status, slug } = validatedFields.data;
+
     // generate a summary from content
     const summary = content.substring(0, 200);
     // get categories
     const categories = formData.getAll('category');
+    // get current date
+    // const updatedat = new Date().toISOString().split('T')[0];
 
     try {
         await sql`
         UPDATE posts
-        SET title = ${title}, content = ${content}, status = ${status}, summary = ${summary}, slug = ${slug}
+        SET title = ${title}, content = ${content}, status = ${status}, summary = ${summary}, slug = ${slug}, updatedat = NOW()
         WHERE postid = ${id}
         `;
     } catch (error) {
@@ -155,7 +167,9 @@ export async function updatePost(id: string, formData: FormData) {
     }
 
     revalidatePath('/dashboard/posts');
-    redirect('/dashboard/posts');
+
+    return { message: 'success' };
+    // redirect('/dashboard/posts');
 }
 
 export async function deletePost(id: string) {

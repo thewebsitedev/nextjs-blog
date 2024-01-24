@@ -7,6 +7,12 @@ import { Category } from "@/app/lib/types";
 import InputCategory from "./input-category";
 import { Suspense } from "react";
 import { InputCategorySkeleton } from "../skeletons";
+import { redirect } from 'next/navigation';
+import { toast } from 'react-toastify';
+import { set } from "zod";
+
+import { useEffect } from "react";
+import { clear } from "console";
 
 export default function DashboardFormCreatePost({
     categories,
@@ -15,6 +21,17 @@ export default function DashboardFormCreatePost({
 }) {
     const initialState = { message: "", errors: {} };
     const [state, dispatch] = useFormState(createPost, initialState);
+
+    useEffect(() => {
+        if ('success' === state.message) {
+            toast.success("Post created successfully");
+        }
+        // check errors length
+        const length = state.errors?.title?.length || 0;
+        if ( length > 0 ) {
+            toast.error("Please fix the errors");
+        }
+    }, [state]);
 
     return (
         <form action={dispatch}>
