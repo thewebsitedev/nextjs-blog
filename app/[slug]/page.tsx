@@ -8,6 +8,11 @@ import { Metadata } from "next";
 // Dynamic metadata
 export async function generateMetadata({ params }:{params: {slug: string}}) {
     const post = await fetchPostBySlug(params.slug);
+
+    if ( ! post ) {
+        notFound();
+    }
+
     const user = await getUserById(post.userid);
     return {
         title: post.title,
