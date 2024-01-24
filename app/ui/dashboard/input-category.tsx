@@ -5,9 +5,9 @@ export default async function InputCategory({ postid }:{
     postid: string | null
 }) {
     // combine the two fetches into one
-    const [categories, postCategories] = await Promise.all([
-        fetchCategories(),
+    const [postCategories, categories] = await Promise.all([
         postid ? fetchPostCategories(postid) : [],
+        fetchCategories(),
     ]);
     let selected: string[] = [];
 

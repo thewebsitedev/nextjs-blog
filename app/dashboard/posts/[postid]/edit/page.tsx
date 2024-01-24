@@ -1,5 +1,4 @@
 import DashboardPageLayout from "@/app/ui/dashboard/layout";
-import { fetchCategories } from "@/app/lib/data";
 import DashboardFormEditPost from "@/app/ui/dashboard/form-edit";
 import { fetchPostById } from "@/app/lib/data";
 import { notFound } from 'next/navigation';
@@ -8,12 +7,9 @@ export default async function DashboardEditPage({ params }: { params: { postid: 
     // title, slug, content, summary, userId, status, featuredImage
     const id = params.postid;
     // console.log(id)
-    const [post, categories] = await Promise.all([
-        fetchPostById(id),
-        fetchCategories(),
-    ]);
+    const post = await fetchPostById(id);
 
-    if ( !post ) {
+    if ( ! post ) {
         notFound();
     }
 
