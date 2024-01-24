@@ -4,6 +4,8 @@ import Header from "../ui/header";
 import Post from "../ui/post";
 import { auth } from "@/auth";
 import { Metadata } from "next";
+import Main from "@/app/ui/main";
+import Footer from "../ui/footer";
 
 // Dynamic metadata
 export async function generateMetadata({ params }:{params: {slug: string}}) {
@@ -32,7 +34,10 @@ export default async function PostPage({params}:{params: {slug: string}}) {
     return (
         <>
             <Header session={session} />
-            <Post post={post} />
+            <Main>
+                <Post post={post} />
+            </Main>
+            <Footer />
         </>
     );
 }

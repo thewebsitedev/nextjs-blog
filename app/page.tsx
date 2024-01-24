@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { PostsSkeleton } from "./ui/skeletons";
 import Footer from "./ui/footer";
 import { auth } from "@/auth";
+import Main from "./ui/main";
 
 export default async function Home({
   searchParams,
@@ -19,9 +20,11 @@ export default async function Home({
   return (
     <>
       <Header session={session} />
-        <Suspense fallback={<PostsSkeleton/>}>
-          <Posts searchParams={searchParams} />
-        </Suspense>
+        <Main>
+          <Suspense fallback={<PostsSkeleton/>}>
+            <Posts searchParams={searchParams} />
+          </Suspense>
+        </Main>
       <Footer />
     </>
   );

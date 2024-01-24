@@ -43,11 +43,11 @@ const social = [
 export default function Footer() {
     return (
         <footer className="bg-white" aria-labelledby="footer-heading">
-            <h2 id="footer-heading" className="sr-only">
+            <div id="footer-heading" className="sr-only">
                 Footer
-            </h2>
+            </div>
             <div className="max-w-7xl mx-auto px-6 pb-8">
-                <div className="border-t border-gray-900/10 pt-8  lg:flex lg:items-center lg:justify-between">
+                <div className="mx-auto max-w-4xl border-t border-gray-900/10 pt-8  lg:flex lg:items-center lg:justify-between">
                     <div>
                         <h3 className="text-sm font-semibold leading-6 text-gray-900">
                             Subscribe to our newsletter
@@ -81,7 +81,8 @@ export default function Footer() {
                     </form>
                 </div>
             </div>
-            <div className="mx-auto max-w-7xl px-2 pb-8 sm:px-4 lg:px-8 mt-8 border-t border-gray-900/10 pt-8 md:flex md:items-center md:justify-between">
+            <div className="mx-auto max-w-7xl px-2 pb-8 sm:px-4 lg:px-8 mt-8 pt-8">
+                <div className="mx-auto max-w-4xl md:flex md:items-center md:justify-between">
                     <div className="flex space-x-6 md:order-2">
                         {social.map((item) => (
                             <a
@@ -100,6 +101,7 @@ export default function Footer() {
                     <p className="mt-8 text-xs leading-5 text-gray-500 md:order-1 md:mt-0">
                         &copy; 2024 Next Gen Blog, Inc. All rights reserved.
                     </p>
+                </div>
             </div>
         </footer>
     );

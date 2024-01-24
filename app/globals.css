@@ -17,13 +17,28 @@
 }
 
 body {
-  /* color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb)); */
+}
+
+.post p {
+  margin-top: 1.5rem;
+}
+.post h2 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  --tw-text-opacity: 1;
+  color: rgb(17 24 39 / var(--tw-text-opacity));
+  letter-spacing: -0.025em;
+  font-weight: 700;
+  margin-top: 1.5rem;
+}
+.post h3 {
+  font-size: 1.2rem;
+  line-height: 2rem;
+  --tw-text-opacity: 1;
+  color: rgb(17 24 39 / var(--tw-text-opacity));
+  letter-spacing: -0.025em;
+  font-weight: 700;
+  margin-top: 1.5rem;
 }
 
 @layer utilities {

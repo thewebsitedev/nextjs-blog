@@ -131,6 +131,50 @@ export function InputCategorySkeleton() {
     );
 }
 
+export function CardSkeleton() {
+    return (
+        <article
+            className="relative isolate flex flex-col gap-8 lg:flex-row"
+        >
+            <div className="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-64 lg:shrink-0">
+                <div className="bg-gray-50 absolute inset-0 rounded-2xl" />
+            </div>
+            <div>
+                <div className="flex items-center gap-x-4 text-xs">
+                    <div
+                        className={`${shimmer} w-full max-w-0 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-0 relative overflow-hidden whitespace-nowrap`}
+                    >
+                        <div className="flex items-center gap-3">
+                            <div className="h-3.5 w-44 bg-gray-50"></div>
+                        </div>
+                    </div>
+                    <div
+                        className="h-7 w-20 relative z-10 rounded-full bg-gray-50 px-3 py-1.5 hover:bg-gray-100 overflow-hidden whitespace-nowrap"
+                    >
+                    </div>
+                </div>
+                <div className="group relative max-w-xl">
+                    <div className="w-96 h-6 mt-3 text-lg font-semibold leading-6 bg-gray-50 overflow-hidden whitespace-nowrap"></div>
+                    <div className="w-full min-h-[48px] mt-5 text-sm leading-6 text-gray-600">
+                        <div className="w-full h-4 mt-3 text-lg font-semibold leading-6 bg-gray-50 overflow-hidden whitespace-nowrap"></div>
+                        <div className="w-full h-4 mt-3 text-lg font-semibold leading-6 bg-gray-50 overflow-hidden whitespace-nowrap"></div>
+                        <div className="w-6/12 h-4 mt-3 text-lg font-semibold leading-6 bg-gray-50 overflow-hidden whitespace-nowrap"></div>
+                    </div>
+                </div>
+                <div className="mt-6 flex border-t border-gray-50 pt-6">
+                    <div className="relative flex items-center gap-x-4">
+                        <div className="h-10 w-10 rounded-full bg-gray-50"></div>
+                        <div className="text-sm leading-6">
+                            <div className="w-32 h-5 bg-gray-50 overflow-hidden whitespace-nowrap" />
+                            <div className="w-40 h-5 bg-gray-50 overflow-hidden whitespace-nowrap mt-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    );
+}
+
 export function PostSkeleton() {
     return (
         <article
@@ -177,8 +221,7 @@ export function PostSkeleton() {
 
 export function PostsSkeleton() {
     return (
-        <div className="py-8 sm:py-12">
-            <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:max-w-4xl">
                     <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                         The Latest
@@ -195,7 +238,6 @@ export function PostsSkeleton() {
                     </div>
                 </div>
             </div>
-        </div>
     );
 }
 
