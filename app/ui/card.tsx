@@ -10,7 +10,7 @@ export default async function Card({ post }: { post: Post}) {
     return (
         <article
             key={post.postid}
-            className="relative isolate flex flex-col gap-8 lg:flex-row"
+            className="relative isolate flex flex-col gap-4 sm:gap-8 lg:flex-row"
         >
             <div className="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-64 lg:shrink-0">
 				<Image
@@ -24,8 +24,8 @@ export default async function Card({ post }: { post: Post}) {
             </div>
             <div>
                 <div className="flex items-center gap-x-4 text-xs">
-                    <time dateTime={moment(post.createdat).format('MMMM Do YYYY')} className="text-gray-500">
-                        {moment(post.createdat).format('MMMM Do YYYY')}
+                    <time dateTime={post.createdat.toISOString()} className="text-gray-500">
+                        {moment(post.createdat).format('MMM D')}
                     </time>
                     {
                         categories.map((category) => (

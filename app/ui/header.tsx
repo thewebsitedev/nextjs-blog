@@ -1,7 +1,7 @@
 'use client';
 
-// import { useState } from 'react'
-// import { Dialog } from '@headlessui/react'
+import { useState } from 'react'
+import { Dialog } from '@headlessui/react'
 import Image from 'next/image'
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
@@ -12,6 +12,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import Login from './login';
 import type { Session } from 'next-auth';
 import Logout from './logout';
+import { classNames } from '@/app/lib/utilities';
 
 export default function Header({ session }:{ session: Session | null }) {
 
@@ -38,15 +39,17 @@ export default function Header({ session }:{ session: Session | null }) {
           <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
             <div className="flex h-16 justify-between mx-auto max-w-4xl">
               <div className="flex px-2 lg:px-0">
+                {/* logo */}
                 <div className="flex flex-shrink-0 items-center">
                   <Image
+                    className="h-8 w-8"
                     src="/logo.svg"
-                    className="h-8 w-auto"
-                    alt="Logo"
+                    alt="logo"
                     width={32}
                     height={32}
                   />
                 </div>
+                {/* navigation links */}
                 <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
                   {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
                   <a
@@ -61,8 +64,15 @@ export default function Header({ session }:{ session: Session | null }) {
                   >
                     Archives
                   </a>
+                  <a
+                    href="/404"
+                    className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                  >
+                    404
+                  </a>
                 </div>
               </div>
+              {/* search */}
               <div className="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
                 <div className="w-full max-w-lg lg:max-w-xs">
                   <label htmlFor="search" className="sr-only">
@@ -98,19 +108,128 @@ export default function Header({ session }:{ session: Session | null }) {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
-                {session?.user?.name ? (<><a
-                    href="/dashboard"
-                    className="inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                  >
-                    Dashboard
-                  </a><Logout /></>) : (<Login />)}
+              <div className="hidden lg:ml-2 lg:flex lg:items-center">
+                {/* Profile dropdown */}
+                {
+                    session?.user?.name ?
+                      (
+                        <Menu as="div" className="relative ml-4 flex-shrink-0">
+                          <div>
+                            <Menu.Button className="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                              <span className="absolute -inset-1.5" />
+                              <span className="sr-only">Open user menu</span>
+                              <Image
+                                className="h-8 w-8 rounded-full"
+                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=64&h=64&q=80"
+                                alt="user"
+                                width={32}
+                                height={32}
+                              />
+                            </Menu.Button>
+                          </div>
+                          <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-100"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-75"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                              >
+                                <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                  <Menu.Item>
+                                    {({ active }) => (
+                                      <a
+                                        href="/dashboard"
+                                        className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                      >
+                                        Dashboard
+                                      </a>
+                                    )}
+                                  </Menu.Item>
+                                  <Menu.Item>
+                                    {({ active }) => (
+                                      <Logout className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')} />
+                                    )}
+                                  </Menu.Item>
+                                </Menu.Items>
+                          </Transition>
+                        </Menu>
+                      )
+                      :
+                      (<Login />)
+                  }
               </div>
             </div>
           </div>
+
+          <Disclosure.Panel className="lg:hidden">
+            <div className="space-y-1 pb-3 pt-2">
+              {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800" */}
+              <Disclosure.Button
+                as="a"
+                href="#"
+                className="block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700"
+              >
+                Dashboard
+              </Disclosure.Button>
+              <Disclosure.Button
+                as="a"
+                href="/archives"
+                className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800"
+              >
+                Archives
+              </Disclosure.Button>
+              <Disclosure.Button
+                as="a"
+                href="/404"
+                className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800"
+              >
+                404
+              </Disclosure.Button>
+            </div>
+            {session?.user?.name ? (
+              <div className="border-t border-gray-200 pb-3 pt-4">
+                <div className="flex items-center px-4">
+                  <div className="flex-shrink-0">
+                    <Image
+                      className="h-10 w-10 rounded-full"
+                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      alt="user"
+                      width={40}
+                      height={40}
+                    />
+                  </div>
+                  <div className="ml-3">
+                    <div className="text-base font-medium text-gray-800">Tom Cook</div>
+                    <div className="text-sm font-medium text-gray-500">tom@example.com</div>
+                  </div>
+                </div>
+                <div className="mt-3 space-y-1">
+                  <Disclosure.Button
+                    as="a"
+                    href="/dashboard"
+                    className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                  >
+                    Dashboard
+                  </Disclosure.Button>
+                  <Logout className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800" />
+                </div>
+              </div>
+            ) 
+            :
+            <div className="border-t border-gray-200 pb-3 pt-4"><Disclosure.Button
+                as="a"
+                href="/login"
+                className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800"
+              >
+                Login
+              </Disclosure.Button></div>
+            }
+          </Disclosure.Panel>
         </>
       )}
-      </Disclosure>
+    </Disclosure>
     </header>
   )
 }

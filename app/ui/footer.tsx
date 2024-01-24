@@ -46,8 +46,8 @@ export default function Footer() {
             <div id="footer-heading" className="sr-only">
                 Footer
             </div>
-            <div className="max-w-7xl mx-auto px-6 pb-8">
-                <div className="mx-auto max-w-4xl border-t border-gray-900/10 pt-8  lg:flex lg:items-center lg:justify-between">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+                <div className="mx-auto max-w-4xl border-t border-gray-900/10 pt-8 lg:flex lg:items-center lg:justify-between">
                     <div>
                         <h3 className="text-sm font-semibold leading-6 text-gray-900">
                             Subscribe to our newsletter
@@ -81,9 +81,9 @@ export default function Footer() {
                     </form>
                 </div>
             </div>
-            <div className="mx-auto max-w-7xl px-2 pb-8 sm:px-4 lg:px-8 mt-8 pt-8">
-                <div className="mx-auto max-w-4xl md:flex md:items-center md:justify-between">
-                    <div className="flex space-x-6 md:order-2">
+            <div className="mx-auto max-w-7xl px-6 pb-8 sm:px-4 lg:px-8 mt-0 pt-8">
+                <div className="mx-auto max-w-4xl sm:flex sm:items-center sm:justify-between sm:align-middle">
+                    <div className="flex space-x-6 sm:order-2 justify-center sm:justify-normal sm:align-middle">
                         {social.map((item) => (
                             <a
                                 key={item.name}
@@ -98,7 +98,7 @@ export default function Footer() {
                             </a>
                         ))}
                     </div>
-                    <p className="mt-8 text-xs leading-5 text-gray-500 md:order-1 md:mt-0">
+                    <p className="mt-8 sm:mt-0 text-xs text-center sm:text-left leading-5 text-gray-500 sm:order-1 md:mt-0">
                         &copy; 2024 Next Gen Blog, Inc. All rights reserved.
                     </p>
                 </div>

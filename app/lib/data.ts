@@ -260,7 +260,6 @@ export async function fetchPaginatedPosts( query: string, currentPage: number ) 
         WHERE
             posts.status = 'published' AND (
             LOWER(posts.title) ILIKE LOWER(${`%${query}%`}) OR
-            LOWER(posts.summary) ILIKE LOWER(${`%${query}%`}) OR
             LOWER(posts.content) ILIKE LOWER(${`%${query}%`})
             )
         ORDER BY posts.createdat DESC

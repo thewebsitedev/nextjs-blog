@@ -142,7 +142,7 @@ export function CardSkeleton() {
             <div>
                 <div className="flex items-center gap-x-4 text-xs">
                     <div
-                        className={`${shimmer} w-full max-w-0 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-0 relative overflow-hidden whitespace-nowrap`}
+                        className={`${shimmer} w-28 text-sm font-medium text-gray-900 sm:w-auto overflow-hidden`}
                     >
                         <div className="flex items-center gap-3">
                             <div className="h-3.5 w-44 bg-gray-50"></div>
@@ -181,7 +181,7 @@ export function PostSkeleton() {
             className="relative isolate flex flex-col gap-8 lg:flex-row"
         >
             <div className="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-64 lg:shrink-0">
-                <div className="bg-gray-50 absolute inset-0 rounded-2xl" />
+                <div className="bg-gray-100 absolute inset-0 rounded-2xl" />
             </div>
             <div>
                 <div className="flex items-center gap-x-4 text-xs">
@@ -189,28 +189,28 @@ export function PostSkeleton() {
                         className={`${shimmer} w-full max-w-0 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-0 relative overflow-hidden whitespace-nowrap`}
                     >
                         <div className="flex items-center gap-3">
-                            <div className="h-3.5 w-44 bg-gray-50"></div>
+                            <div className="h-3.5 w-44 bg-gray-100"></div>
                         </div>
                     </div>
                     <div
-                        className="h-7 w-20 relative z-10 rounded-full bg-gray-50 px-3 py-1.5 hover:bg-gray-100 overflow-hidden whitespace-nowrap"
+                        className="h-7 w-20 relative z-10 rounded-full bg-gray-100 px-3 py-1.5 hover:bg-gray-100 overflow-hidden whitespace-nowrap"
                     >
                     </div>
                 </div>
                 <div className="group relative max-w-xl">
-                    <div className="w-96 h-6 mt-3 text-lg font-semibold leading-6 bg-gray-50 overflow-hidden whitespace-nowrap"></div>
+                    <div className="w-96 h-6 mt-3 text-lg font-semibold leading-6 bg-gray-100 overflow-hidden whitespace-nowrap"></div>
                     <div className="w-full min-h-[48px] mt-5 text-sm leading-6 text-gray-600">
-                        <div className="w-full h-4 mt-3 text-lg font-semibold leading-6 bg-gray-50 overflow-hidden whitespace-nowrap"></div>
-                        <div className="w-full h-4 mt-3 text-lg font-semibold leading-6 bg-gray-50 overflow-hidden whitespace-nowrap"></div>
-                        <div className="w-6/12 h-4 mt-3 text-lg font-semibold leading-6 bg-gray-50 overflow-hidden whitespace-nowrap"></div>
+                        <div className="w-full h-4 mt-3 text-lg font-semibold leading-6 bg-gray-100 overflow-hidden whitespace-nowrap"></div>
+                        <div className="w-full h-4 mt-3 text-lg font-semibold leading-6 bg-gray-100 overflow-hidden whitespace-nowrap"></div>
+                        <div className="w-6/12 h-4 mt-3 text-lg font-semibold leading-6 bg-gray-100 overflow-hidden whitespace-nowrap"></div>
                     </div>
                 </div>
                 <div className="mt-6 flex border-t border-gray-50 pt-6">
                     <div className="relative flex items-center gap-x-4">
-                        <div className="h-10 w-10 rounded-full bg-gray-50"></div>
+                        <div className="h-10 w-10 rounded-full bg-gray-100"></div>
                         <div className="text-sm leading-6">
-                            <div className="w-32 h-5 bg-gray-50 overflow-hidden whitespace-nowrap" />
-                            <div className="w-40 h-5 bg-gray-50 overflow-hidden whitespace-nowrap mt-2"></div>
+                            <div className="w-32 h-5 bg-gray-100 overflow-hidden whitespace-nowrap" />
+                            <div className="w-40 h-5 bg-gray-100 overflow-hidden whitespace-nowrap mt-2"></div>
                         </div>
                     </div>
                 </div>
@@ -221,23 +221,21 @@ export function PostSkeleton() {
 
 export function PostsSkeleton() {
     return (
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                <div className="mx-auto max-w-2xl lg:max-w-4xl">
-                    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                        The Latest
-                    </h2>
-                    <p className="mt-2 text-lg leading-8 text-gray-600">
-                        Learn how to grow your business with our expert advice.
-                    </p>
-                    <div className="mt-8 space-y-16 lg:mt-12 lg:space-y-16">
-                        <PostSkeleton />
-                        <PostSkeleton />
-                        <PostSkeleton />
-                        <PostSkeleton />
-                        <PostSkeleton />
-                    </div>
-                </div>
+        <>
+            <div className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                The Latest
             </div>
+            <p className="mt-2 text-lg leading-6 sm:leading-8 text-gray-600">
+                Learn how to grow your business with our expert advice.
+            </p>
+            <div className="mt-8 space-y-16 lg:mt-12 lg:space-y-16">
+                <CardSkeleton />
+                <CardSkeleton />
+                <CardSkeleton />
+                <CardSkeleton />
+                <CardSkeleton />
+            </div>
+        </>
     );
 }
 
