@@ -17,7 +17,7 @@ export default function LoginPage() {
               src="/logo.svg"
               alt="blog logo"
               width="100"
-              height="20"
+              height="100"
             />
             <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
               Sign in to your account

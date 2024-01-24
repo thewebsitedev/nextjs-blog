@@ -63,6 +63,10 @@ export async function fetchPostById(postId: string) {
 
 export async function fetchCategories() {
     noStore();
+    // console.log({
+    //     POSTGRES_URL: process.env.POSTGRES_URL,
+    //     POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING
+    // });
     try {
         const data = await sql<Category>`
         SELECT

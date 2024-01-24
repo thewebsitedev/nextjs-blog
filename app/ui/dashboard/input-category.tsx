@@ -1,20 +1,9 @@
-import { fetchCategories, fetchPostCategories } from "@/app/lib/data";
 import { Category } from "@/app/lib/types";
 
-export default async function InputCategory({ postid }:{
-    postid: string | null
+export default async function InputCategory({ categories, selected }:{
+    categories: Category[],
+    selected: string[] | undefined,
 }) {
-    // combine the two fetches into one
-    const [postCategories, categories] = await Promise.all([
-        postid ? fetchPostCategories(postid) : [],
-        fetchCategories(),
-    ]);
-    let selected: string[] = [];
-
-    if (postid) {
-        selected = postCategories.map((category) => category.categoryid);
-    }
-
     return (
         <div className="col-span-full">
             <label
@@ -32,7 +21,7 @@ export default async function InputCategory({ postid }:{
                     size={5}
                     defaultValue={selected}
                 >
-                    {categories.map((category) => (
+                    {categories?.map((category) => (
                         <option key={category.categoryid} value={category.categoryid}>
                             {category.name}
                         </option>

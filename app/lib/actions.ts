@@ -57,8 +57,6 @@ export async function createPost(prevState: State, formData: FormData) {
         status: formData.get('status')
     });
 
-    console.log(validatedFields);
-
     // If form validation fails, return errors early. Otherwise, continue.
     if ( ! validatedFields.success ) {
         return {
@@ -69,13 +67,17 @@ export async function createPost(prevState: State, formData: FormData) {
 
     // Prepare data for insertion into the database
     const { title, content, status } = validatedFields.data;
+    // generate a slug from title
     const slug = slugify(title);
-    const summary = content.substring(0, 100);
+    // generate a summary from content
+    const summary = content.substring(0, 200);
+    // get current date
     const createdat = new Date().toISOString().split('T')[0];
+    // get user id
     const session = await auth();
     const email = session?.user?.email;
     const user = await getUser(email);
-
+    // get categories
     const categories = formData.getAll('category');
 
     let postid = '';
@@ -127,8 +129,10 @@ export async function updatePost(id: string, formData: FormData) {
         status: formData.get('status'),
         slug: formData.get('slug'),
     });
-   
-    const summary = content.substring(0, 100);
+
+    // generate a summary from content
+    const summary = content.substring(0, 200);
+    // get categories
     const categories = formData.getAll('category');
 
     try {
@@ -155,9 +159,13 @@ export async function updatePost(id: string, formData: FormData) {
 }
 
 export async function deletePost(id: string) {
-    // throw new Error('Failed to Delete Invoice');
+    // throw new Error('Failed to delete post');
     try {
+        // first delete all post category relationships
+        await deletePostCategoryRelation(id);
+        // then delete the post
         await sql`DELETE FROM posts WHERE postid = ${id}`;
+        
         revalidatePath('/dashboard/posts');
         return { message: 'Post Deleted.' };
     } catch (error) {

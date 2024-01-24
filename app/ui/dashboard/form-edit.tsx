@@ -1,5 +1,3 @@
-'use client';
-
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { useFormState } from 'react-dom';
 import { updatePost } from "@/app/lib/actions";
@@ -9,9 +7,13 @@ import { Suspense } from "react";
 import { InputCategorySkeleton } from "../skeletons";
 import { fetchPostCategories } from "@/app/lib/data";
 
-export default function DashboardFormEditPost({ post } : { post: Post}) {
+export default function DashboardFormEditPost(
+    { post, categories, selected } : { post: Post, categories: Category[], selected: string[]}
+    ) {
 
     const updatePostWithId = updatePost.bind(null, post.postid);
+
+    console.log(post);
 
     return (
         <form action={updatePostWithId}>
@@ -112,15 +114,15 @@ export default function DashboardFormEditPost({ post } : { post: Post}) {
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     defaultValue={post.status}
                                 >
-                                   <option key='draft' value='draft'>Draft</option>
-                                   <option key='published' value='published'>Published</option>
-                                   <option key='archived' value='archived'>Archived</option>
+                                   <option value='draft'>Draft</option>
+                                   <option value='published'>Published</option>
+                                   <option value='archived'>Archived</option>
                                 </select>
                             </div>
                         </div>
 
                         <Suspense fallback={<InputCategorySkeleton />}>
-                            <InputCategory postid={post.postid} />
+                            <InputCategory categories={categories} selected={selected} />
                         </Suspense>
 
                         <div className="col-span-full">

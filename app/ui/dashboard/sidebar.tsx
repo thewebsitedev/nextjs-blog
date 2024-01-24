@@ -11,13 +11,15 @@ import {
 } from '@heroicons/react/24/outline'
 import Image from 'next/image';
 import { classNames } from '@/app/lib/utilities';
-
-const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: true },
-  { name: 'Posts', href: '/dashboard/posts', icon: DocumentDuplicateIcon, current: false },
-]
+import { usePathname } from 'next/navigation';
 
 export default function DashboardSidebar({sidebarOpen, toggleSidebar} : {sidebarOpen: boolean, toggleSidebar: any}) {
+  const pathname = usePathname();
+  const navigation = [
+    { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: pathname === '/dashboard'},
+    { name: 'Posts', href: '/dashboard/posts', icon: DocumentDuplicateIcon, current: pathname === '/dashboard/posts'},
+  ]
+  console.log(pathname);
   return (
     <>
         <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -77,59 +79,29 @@ export default function DashboardSidebar({sidebarOpen, toggleSidebar} : {sidebar
                         <li>
                           <ul role="list" className="-mx-2 space-y-1">
                             {navigation.map((item) => (
-                              <li key={item.name}>
-                                <a
-                                  href={item.href}
-                                  className={classNames(
-                                    item.current
-                                      ? 'bg-gray-50 text-indigo-600'
-                                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
-                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                  )}
-                                >
-                                  <item.icon
+                                <li key={item.name}>
+                                  <a
+                                    href={item.href}
                                     className={classNames(
-                                      item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
-                                      'h-6 w-6 shrink-0'
-                                    )}
-                                    aria-hidden="true"
-                                  />
-                                  {item.name}
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                        </li>
-                        {/* <li>
-                          <div className="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
-                          <ul role="list" className="-mx-2 mt-2 space-y-1">
-                            {teams.map((team) => (
-                              <li key={team.name}>
-                                <a
-                                  href={team.href}
-                                  className={classNames(
-                                    team.current
-                                      ? 'bg-gray-50 text-indigo-600'
-                                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
-                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                  )}
-                                >
-                                  <span
-                                    className={classNames(
-                                      team.current
-                                        ? 'text-indigo-600 border-indigo-600'
-                                        : 'text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600',
-                                      'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white'
+                                      item.current
+                                        ? 'bg-gray-50 text-indigo-600'
+                                        : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
+                                      'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                                     )}
                                   >
-                                    {team.initial}
-                                  </span>
-                                  <span className="truncate">{team.name}</span>
-                                </a>
-                              </li>
-                            ))}
+                                    <item.icon
+                                      className={classNames(
+                                        item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
+                                        'h-6 w-6 shrink-0'
+                                      )}
+                                      aria-hidden="true"
+                                    />
+                                    {item.name}
+                                  </a>
+                                </li>
+                              ))}
                           </ul>
-                        </li> */}
+                        </li>
                         <li className="mt-auto">
                           <a
                             href="/"

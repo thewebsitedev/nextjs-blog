@@ -8,7 +8,11 @@ import InputCategory from "./input-category";
 import { Suspense } from "react";
 import { InputCategorySkeleton } from "../skeletons";
 
-export default function DashboardFormCreatePost() {
+export default function DashboardFormCreatePost({
+    categories,
+}: {
+    categories: Category[];
+}) {
     const initialState = { message: "", errors: {} };
     const [state, dispatch] = useFormState(createPost, initialState);
 
@@ -90,7 +94,7 @@ export default function DashboardFormCreatePost() {
                                 >
                                    <option value='draft'>Draft</option>
                                    <option value='published'>Published</option>
-                                   <option value='archive'>Archive</option>
+                                   <option value='archived'>Archive</option>
                                 </select>
                             </div>
                             <div id="error-status" aria-live="polite" aria-atomic="true">
@@ -103,9 +107,9 @@ export default function DashboardFormCreatePost() {
                             </div>
                         </div>
 
-                        {/* <Suspense fallback={<InputCategorySkeleton />}>
-                            <InputCategory postid={null} />
-                        </Suspense> */}
+                        <Suspense fallback={<InputCategorySkeleton />}>
+                            <InputCategory categories={categories} selected={undefined} />
+                        </Suspense>
 
                         {/* <div className="col-span-full">
                             <label
