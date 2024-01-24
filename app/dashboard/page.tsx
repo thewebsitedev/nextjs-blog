@@ -1,13 +1,15 @@
-import { fetchLatestPosts } from "@/app/lib/data";
 import DashboardPageLayout from '@/app/ui/dashboard/layout';
-import { DeletePost } from "@/app/ui/dashboard/posts/buttons";
-import { Suspense } from "react";
+import Welcome from '../ui/dashboard/welcome';
+import { Suspense } from 'react';
+import { WelcomeSkeleton } from '../ui/skeletons';
 
-export default async function DashboardPostsPage() {
-    const posts = await fetchLatestPosts('410544b2-4001-4271-9855-fec4b6a6442a');
+export default function DashboardPostsPage() {
     return (
         <DashboardPageLayout>
-            <h1>Dashboard</h1>
+            <Suspense fallback={<WelcomeSkeleton />}>
+                <Welcome />
+            </Suspense>
+            <p className='text-sm'>Recent posts with all posts button + some other widgets</p>
         </DashboardPageLayout>
     )
 }

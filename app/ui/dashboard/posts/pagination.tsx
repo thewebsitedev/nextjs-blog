@@ -32,7 +32,7 @@ export default function DashboardPagination({totalPages, totalPosts, page}:{tota
                 </a>
                 <a
                 href={createPageURL(page + 1)}
-                className="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
+                className={`relative ml-3 inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0 ${page === totalPages ? 'disabled bg-gray-50 cursor-not-allowed text-gray-400' : 'bg-white text-gray-900'}`}
                 >
                     Next
                 </a>

@@ -12,7 +12,7 @@ export type Post = {
 };
 
 export type User = {
-    id: string;
+    userid: string;
     name: string;
     email: string;
     password: string;
@@ -23,3 +23,13 @@ export type Category = {
     name: string;
     description: string;
 }
+
+// This is temporary until @types/react-dom is updated
+export type State = {
+	errors?: {
+	  title?: string[];
+	  content?: string[];
+	  status?: string[];
+	};
+	message?: string | null;
+};

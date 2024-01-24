@@ -1,8 +1,10 @@
-import { fetchUserPaginatedPosts, fetchPostsPages } from "@/app/lib/data";
+import { fetchUserPaginatedPosts, fetchUserPostsPages } from "@/app/lib/data";
 import { DeletePost } from "@/app/ui/dashboard/posts/buttons";
 import { PencilIcon } from "@heroicons/react/24/outline";
 import moment from "moment";
 import DashboardPagination from "./pagination";
+import { auth } from "@/auth";
+import { getUser } from "@/app/lib/data";
 
 export default async function PostsTable({
     searchParams,
@@ -12,10 +14,19 @@ export default async function PostsTable({
       page?: string,
     },
 }) {
+    const session = await auth();
+    const user = await getUser(session?.user?.email);
     const currentPage = Number(searchParams?.page) || 1;
     const query = searchParams?.query || '';
-    const posts = await fetchUserPaginatedPosts('410544b2-4001-4271-9855-fec4b6a6442a', query, currentPage);
-    const { totalPages, totalPosts } = await fetchPostsPages('410544b2-4001-4271-9855-fec4b6a6442a');
+    const posts = await fetchUserPaginatedPosts(user.userid, query, currentPage);
+    const { totalPages, totalPosts } = await fetchUserPostsPages(user.userid);
+
+    const checkTime = (date: Date) => {
+        let current = moment();
+        let postDate = moment(date); 
+        
+        return current.diff(postDate, 'h');
+    }
     
     return (
         <>
@@ -54,8 +65,9 @@ export default async function PostsTable({
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                    {posts.map((post) => (
-                        <tr key={post.postid}>
+                    {posts.map((post) => {
+                        const dateText = checkTime(post.createdat) < 24 ? `${moment(post.createdat).fromNow()}` : moment(post.createdat).format('MMMM Do, YYYY');
+                        return <tr key={post.postid}>
                             <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-0">
                                 {post.title}
                                 <dl className="font-normal lg:hidden">
@@ -74,8 +86,7 @@ export default async function PostsTable({
                                 </dl>
                             </td>
                             <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">
-                                {moment(post.createdat).fromNow()}
-                                {/* {moment(post.createdat).format('MMMM Do YYYY, h:mm:ss a')} */}
+                                {dateText}
                             </td>
                             <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">
                                 {post.status === 'published' ? <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 capitalize">
@@ -104,7 +115,7 @@ export default async function PostsTable({
                                 </span>
                             </td>
                         </tr>
-                    ))}
+                    })}
                 </tbody>
             </table>
             <DashboardPagination totalPages={totalPages} totalPosts={totalPosts} page={currentPage} />

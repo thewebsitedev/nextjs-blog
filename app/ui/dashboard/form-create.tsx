@@ -1,3 +1,5 @@
+'use client';
+
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { useFormState } from 'react-dom';
 import { createPost } from "@/app/lib/actions";
@@ -7,11 +9,13 @@ import { Suspense } from "react";
 import { InputCategorySkeleton } from "../skeletons";
 
 export default function DashboardFormCreatePost() {
-    // const initialState = { message: null, errors: {} };
-    // const [state, dispatch] = useFormState(createPost, initialState);
+    const initialState = { message: "", errors: {} };
+    const [state, dispatch] = useFormState(createPost, initialState);
+
+    console.log(state);
 
     return (
-        <form action={createPost}>
+        <form action={dispatch}>
             <div className="space-y-12">
                 <div className="border-b border-gray-900/10 pb-12">
                     <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -28,18 +32,19 @@ export default function DashboardFormCreatePost() {
                                         type="text"
                                         name="title"
                                         id="title"
-                                        autoComplete="title"
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        placeholder="Be creative with your title"
+                                        aria-describedby="error-title"
                                     />
                                 </div>
                             </div>
-                            <div id="customer-error-title" aria-live="polite" aria-atomic="true">
-                                {/* {state.errors?.title &&
+                            <div id="error-title" aria-live="polite" aria-atomic="true">
+                                {state.errors?.title &&
                                     state.errors.title.map((error: string) => (
                                     <p className="mt-2 text-sm text-red-500" key={error}>
                                         {error}
                                     </p>
-                                ))} */}
+                                ))}
                             </div>
                         </div>
 
@@ -56,12 +61,18 @@ export default function DashboardFormCreatePost() {
                                     name="content"
                                     rows={3}
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    defaultValue={""}
+                                    placeholder="Write in as much detail as possible"
+                                    aria-describedby="error-content"
                                 />
                             </div>
-                            <p className="mt-3 text-sm leading-6 text-gray-600">
-                                Write in as much detail as possible.
-                            </p>
+                            <div id="error-content" aria-live="polite" aria-atomic="true">
+                                {state.errors?.content &&
+                                    state.errors.content.map((error: string) => (
+                                    <p className="mt-2 text-sm text-red-500" key={error}>
+                                        {error}
+                                    </p>
+                                ))}
+                            </div>
                         </div>
 
                         <div className="col-span-full">
@@ -77,19 +88,28 @@ export default function DashboardFormCreatePost() {
                                     name="status"
                                     autoComplete="status-name"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    aria-describedby="error-status"
                                 >
                                    <option value='draft'>Draft</option>
                                    <option value='published'>Published</option>
                                    <option value='archive'>Archive</option>
                                 </select>
                             </div>
+                            <div id="error-status" aria-live="polite" aria-atomic="true">
+                                {state.errors?.status &&
+                                    state.errors.status.map((error: string) => (
+                                    <p className="mt-2 text-sm text-red-500" key={error}>
+                                        {error}
+                                    </p>
+                                ))}
+                            </div>
                         </div>
 
-                        <Suspense fallback={<InputCategorySkeleton />}>
-                            <InputCategory />
-                        </Suspense>
+                        {/* <Suspense fallback={<InputCategorySkeleton />}>
+                            <InputCategory postid={null} />
+                        </Suspense> */}
 
-                        <div className="col-span-full">
+                        {/* <div className="col-span-full">
                             <label
                                 htmlFor="featured-image"
                                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -124,7 +144,7 @@ export default function DashboardFormCreatePost() {
                                     </p>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

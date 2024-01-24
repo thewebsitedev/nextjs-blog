@@ -1,9 +1,11 @@
+import { fetchPostCategories } from "../lib/data";
 import Image from "next/image";
 import { Post } from "@/app/lib/types";
 import slugify from "react-slugify";
 import moment from "moment";
 
-export default function Post({ post }: { post: Post}) {
+export default async function Post({ post }: { post: Post}) {
+    const categories = await fetchPostCategories(post.postid);
     return (
         <article
             key={post.postid}
@@ -21,15 +23,20 @@ export default function Post({ post }: { post: Post}) {
             </div>
             <div>
                 <div className="flex items-center gap-x-4 text-xs">
-                    <time dateTime={moment(post.createdat).format('MMMM Do YYYY, h:mm:ss a')} className="text-gray-500">
-                        {moment(post.createdat).format('MMMM Do YYYY, h:mm:ss a')}
+                    <time dateTime={moment(post.createdat).format('MMMM Do YYYY')} className="text-gray-500">
+                        {moment(post.createdat).format('MMMM Do YYYY')}
                     </time>
-                    <a
-                        href={''}
-                        className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-                    >
-                        Category
-                    </a>
+                    {
+                        categories.map((category) => (
+                            <a
+                                key={category.categoryid}
+                                href={slugify(category.name)}
+                                className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+                            >
+                                {category.name}
+                            </a>
+                        ))
+                    }
                 </div>
                 <div className="group relative max-w-xl">
                     <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
@@ -39,7 +46,7 @@ export default function Post({ post }: { post: Post}) {
                         </a>
                     </h3>
                     <p className="min-h-[48px] mt-5 text-sm leading-6 text-gray-600">
-                        {post.content}
+                        {post.summary}
                     </p>
                 </div>
                 <div className="mt-6 flex border-t border-gray-900/5 pt-6">

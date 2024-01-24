@@ -5,8 +5,9 @@ import { Category } from "./types";
 import { set } from "zod";
 
 const ITEMS_PER_PAGE = 10;
+const ARTICLES_PER_PAGE = 6;
 
-export async function getUser(email: string) {
+export async function getUser(email: string | undefined | null) {
     try {
         const user = await sql`SELECT * FROM users WHERE email=${email}`;
         return user.rows[0] as User;
@@ -26,7 +27,7 @@ export async function fetchLatestPosts(userId: string) {
         SELECT *
         FROM posts
         WHERE posts.userid = ${userId}
-        ORDER BY posts.createdat ASC
+        ORDER BY posts.createdat DESC
         LIMIT ${ITEMS_PER_PAGE}`;
 
         const latestPosts = data.rows;
@@ -83,9 +84,16 @@ export async function fetchPosts() {
         // await new Promise((resolve) => setTimeout(resolve, 10000));
     
         const data = await sql<Post>`
-        SELECT *
+        SELECT 
+            posts.postid,
+            posts.title,
+            posts.content,
+            posts.createdAt,
+            posts.userid
         FROM posts
-        ORDER BY posts.createdat ASC`;
+        WHERE posts.status = 'published'
+        ORDER BY posts.createdat ASC
+        LIMIT ${ARTICLES_PER_PAGE}`;
 
         const posts = data.rows;
 
@@ -119,7 +127,28 @@ export async function fetchPostBySlug(slug: string) {
     }
 }
 
-export async function fetchPostsPages(userId: string) {
+export async function fetchPostCategories(postid: string | null) {
+    noStore();
+    try {
+        const data = await sql<Category>`
+        SELECT 
+            categories.categoryid,
+            categories.name,
+            categories.description
+        FROM categories
+        INNER JOIN postcategories ON postcategories.categoryid = categories.categoryid
+        WHERE postcategories.postid = ${postid};`;
+
+        const categories = data.rows;
+
+        return categories;
+    } catch (error) {
+        console.error("Database Error:", error);
+        throw new Error("Failed to fetch the post.");
+    }
+}
+
+export async function fetchUserPostsPages(userId: string | undefined) {
     noStore();
     try {
         const count = await sql`SELECT COUNT(*)
@@ -138,10 +167,10 @@ export async function fetchPostsPages(userId: string) {
     }
 }
 
-export async function fetchUserPaginatedPosts( userId: string, query: string, currentPage: number ) {
+export async function fetchUserPaginatedPosts( userId: string | undefined, query: string, currentPage: number ) {
     noStore();
 
-    await new Promise((resolve) => setTimeout(resolve, 10000));
+    // await new Promise((resolve) => setTimeout(resolve, 10000));
 
     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
@@ -157,6 +186,63 @@ export async function fetchUserPaginatedPosts( userId: string, query: string, cu
             posts.userid = ${userId}
         ORDER BY posts.createdat DESC
         LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+      `;
+  
+      return posts.rows;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch posts.');
+    }
+}
+
+export async function fetchPostsPages( query: string ) {
+    noStore();
+    try {
+        const count = await sql`SELECT COUNT(*)
+        FROM posts
+        WHERE 
+            posts.status = 'published' AND (
+            LOWER(posts.title) ILIKE LOWER(${`%${query}%`}) OR 
+            LOWER(posts.summary) ILIKE LOWER(${`%${query}%`}) OR
+            LOWER(posts.content) ILIKE LOWER(${`%${query}%`})
+            )
+    `;
+        const totalPosts = Number(count.rows[0].count);
+        const totalPages = Math.ceil(Number(count.rows[0].count) / ARTICLES_PER_PAGE);
+        return {
+            totalPages,
+            totalPosts,
+        };
+    } catch (error) {
+      console.error('Database Error:', error);
+      throw new Error('Failed to fetch total number of invoices.');
+    }
+}
+
+export async function fetchPaginatedPosts( query: string, currentPage: number ) {
+    noStore();
+
+    // await new Promise((resolve) => setTimeout(resolve, 10000));
+
+    const offset = (currentPage - 1) * ARTICLES_PER_PAGE;
+
+    try {
+      const posts = await sql<Post>`
+        SELECT
+            posts.postid,
+            posts.title,
+            posts.summary,
+            posts.createdat,
+            posts.status
+        FROM posts
+        WHERE
+            posts.status = 'published' AND (
+            LOWER(posts.title) ILIKE LOWER(${`%${query}%`}) OR
+            LOWER(posts.summary) ILIKE LOWER(${`%${query}%`}) OR
+            LOWER(posts.content) ILIKE LOWER(${`%${query}%`})
+            )
+        ORDER BY posts.createdat DESC
+        LIMIT ${ARTICLES_PER_PAGE} OFFSET ${offset}
       `;
   
       return posts.rows;

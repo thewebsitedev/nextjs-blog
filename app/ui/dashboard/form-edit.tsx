@@ -1,3 +1,5 @@
+'use client';
+
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { useFormState } from 'react-dom';
 import { updatePost } from "@/app/lib/actions";
@@ -5,12 +7,9 @@ import { Category, Post } from "@/app/lib/types";
 import InputCategory from "./input-category";
 import { Suspense } from "react";
 import { InputCategorySkeleton } from "../skeletons";
+import { fetchPostCategories } from "@/app/lib/data";
 
 export default function DashboardFormEditPost({ post } : { post: Post}) {
-    // const initialState = { message: null, errors: {} };
-    // const [state, dispatch] = useFormState(createPost, initialState);
-
-    console.log(post);
 
     const updatePostWithId = updatePost.bind(null, post.postid);
 
@@ -115,13 +114,13 @@ export default function DashboardFormEditPost({ post } : { post: Post}) {
                                 >
                                    <option key='draft' value='draft'>Draft</option>
                                    <option key='published' value='published'>Published</option>
-                                   <option key='archive' value='archive'>Archive</option>
+                                   <option key='archived' value='archived'>Archived</option>
                                 </select>
                             </div>
                         </div>
 
                         <Suspense fallback={<InputCategorySkeleton />}>
-                            <InputCategory />
+                            <InputCategory postid={post.postid} />
                         </Suspense>
 
                         <div className="col-span-full">

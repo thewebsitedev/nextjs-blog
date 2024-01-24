@@ -1,6 +1,13 @@
+'use client';
+
 import Image from "next/image";
+import { useFormState, useFormStatus } from 'react-dom';
+import { authenticate } from '@/app/lib/actions';
+import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 
 export default function LoginPage() {
+  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+  const { pending } = useFormStatus();
     return (
       <>
         <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gray-50">
@@ -19,7 +26,7 @@ export default function LoginPage() {
   
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
             <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
-              <form className="space-y-6" action="#" method="POST">
+              <form className="space-y-6" action={dispatch}>
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                     Email address
@@ -76,11 +83,16 @@ export default function LoginPage() {
                   <button
                     type="submit"
                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    aria-disabled={pending}
                   >
                     Sign in
                   </button>
                 </div>
               </form>
+
+              {errorMessage && (
+                  <p className="flex justify-center text-sm text-red-500 mt-3"><ExclamationCircleIcon className="h-5 w-5 text-red-500 mr-1" />{errorMessage}</p>
+              )}
   
               <div>
                 <div className="relative mt-10">
@@ -142,6 +154,14 @@ export default function LoginPage() {
               </a>
             </p>
           </div>
+
+          <div
+          className="flex h-8 items-end space-x-1"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          
+        </div>
         </div>
       </>
     )

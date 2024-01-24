@@ -4,26 +4,20 @@ import { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {
   ArrowLeftStartOnRectangleIcon,
-  ArrowUturnLeftIcon,
-  BackwardIcon,
   Cog6ToothIcon,
   DocumentDuplicateIcon,
   HomeIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import Image from 'next/image';
+import { classNames } from '@/app/lib/utilities';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: true },
   { name: 'Posts', href: '/dashboard/posts', icon: DocumentDuplicateIcon, current: false },
 ]
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
-
 export default function DashboardSidebar({sidebarOpen, toggleSidebar} : {sidebarOpen: boolean, toggleSidebar: any}) {
-
   return (
     <>
         <Transition.Root show={sidebarOpen} as={Fragment}>

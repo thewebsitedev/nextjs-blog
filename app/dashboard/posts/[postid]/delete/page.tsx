@@ -16,6 +16,7 @@ import {
     ChevronDownIcon,
     MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
+import { classNames } from "@/app/lib/utilities";
 
 const navigation = [
     { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: false },
@@ -39,10 +40,6 @@ const userNavigation = [
     { name: "Your profile", href: "#" },
     { name: "Sign out", href: "#" },
 ];
-
-function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(" ");
-}
 
 export default async function DashboardPostDeletePage() {
     // const [sidebarOpen, setSidebarOpen] = useState(false)
