@@ -95,7 +95,7 @@ export async function fetchCategories() {
     }
 }
 
-export async function fetchPosts() {
+export async function fetchPosts(count: number | null) {
     noStore();
     try {
         // console.log('Fetching posts data...');
@@ -112,8 +112,8 @@ export async function fetchPosts() {
             posts.userid
         FROM posts
         WHERE posts.status = 'published'
-        ORDER BY posts.createdat ASC
-        LIMIT ${ARTICLES_PER_PAGE}`;
+        ORDER BY posts.createdat DESC
+        LIMIT ${count}`;
 
         const posts = data.rows;
 

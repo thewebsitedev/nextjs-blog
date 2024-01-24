@@ -19,7 +19,6 @@ export default function DashboardSidebar({sidebarOpen, toggleSidebar} : {sidebar
     { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: pathname === '/dashboard'},
     { name: 'Posts', href: '/dashboard/posts', icon: DocumentDuplicateIcon, current: pathname === '/dashboard/posts'},
   ]
-  console.log(pathname);
   return (
     <>
         <Transition.Root show={sidebarOpen} as={Fragment}>

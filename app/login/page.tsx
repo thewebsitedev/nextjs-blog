@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useFormState, useFormStatus } from 'react-dom';
 import { authenticate } from '@/app/lib/actions';
 import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
-import Header from "../ui/header";
 
 export default function LoginPage() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
@@ -91,7 +90,13 @@ export default function LoginPage() {
             </form>
 
             {errorMessage && (
+              <div
+                className="flex justify-center h-8"
+                aria-live="polite"
+                aria-atomic="true"
+              >
                 <p className="flex justify-center text-sm text-red-500 mt-3"><ExclamationCircleIcon className="h-5 w-5 text-red-500 mr-1" />{errorMessage}</p>
+              </div>
             )}
 
             <div>
@@ -154,14 +159,6 @@ export default function LoginPage() {
             </a>
           </p>
         </div>
-
-        <div
-        className="flex h-8 items-end space-x-1"
-        aria-live="polite"
-        aria-atomic="true"
-      >
-        
-      </div>
       </div>
     )
   }

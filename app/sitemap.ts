@@ -11,7 +11,7 @@ export default async function sitemap({
 }: {
   id: number
 }): Promise<MetadataRoute.Sitemap> {
-  const posts = await fetchPosts();
+  const posts = await fetchPosts(null);
 
   if ( id === 2 ) {
     return posts.map((post) => ({

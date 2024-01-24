@@ -14,7 +14,7 @@ export default function DashboardPagination({totalPages, totalPosts, page}:{tota
     
     return (
         <nav
-        className="flex items-center justify-between border-t border-gray-200 bg-white py-5"
+        className="flex items-center justify-between border-t border-gray-200 bg-white py-5 px-4 sm:px-0"
         aria-label="Pagination"
         >
             <div className="hidden sm:block">

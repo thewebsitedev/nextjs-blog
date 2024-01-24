@@ -145,7 +145,7 @@ export default function DashboardFormEditPost(
                             <InputCategory categories={categories} selected={selected} />
                         </Suspense>
 
-                        <div className="col-span-full">
+                        {/* <div className="col-span-full">
                             <label
                                 htmlFor="featured-image"
                                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -180,7 +180,7 @@ export default function DashboardFormEditPost(
                                     </p>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
