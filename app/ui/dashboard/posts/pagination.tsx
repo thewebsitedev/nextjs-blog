@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { usePathname, useSearchParams } from 'next/navigation';
-import LinkButton from '../../link';
+import { usePathname, useSearchParams } from "next/navigation";
+import LinkButton from "../../link";
 
 // dashboard pagination
 export default function DashboardPagination({totalPages, totalPosts, page}:{totalPages: number, totalPosts: number, page: number}) {

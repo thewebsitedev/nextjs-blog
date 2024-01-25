@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useFormState } from 'react-dom';
+import { useFormState } from "react-dom";
 import { updatePost } from "@/app/lib/actions";
 import { Category, Post } from "@/app/lib/types";
 import { Suspense } from "react";
 import { InputCategorySkeleton } from "../skeletons";
 import { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import { classNames } from "@/app/lib/utils";
 import Markdown from "react-markdown";
 import LinkButton from "../link";

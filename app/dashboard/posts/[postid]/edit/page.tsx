@@ -1,10 +1,10 @@
 import DashboardPageLayout from "@/app/ui/dashboard/layout";
 import DashboardFormEditPost from "@/app/ui/dashboard/form-edit";
 import { fetchPostById, fetchCategories, fetchPostCategories } from "@/app/lib/data";
-import { notFound } from 'next/navigation';
-import { ToastContainer } from 'react-toastify';
+import { notFound } from "next/navigation";
+import { ToastContainer } from "react-toastify";
 
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 // Dashboard edit post page
 export default async function DashboardEditPage({ params }: { params: { postid: string } }) {

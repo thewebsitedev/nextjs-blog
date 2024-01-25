@@ -7,12 +7,11 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import { classNames } from "@/app/lib/utils";
+import type { Session } from "next-auth";
 import Login from "./login";
 import Logout from "./logout";
 import LinkButton from "./link";
 import Image from "next/image";
-
-import type { Session } from "next-auth";
 
 // blog header structure
 export default function Header({ session }: { session: Session | null }) {

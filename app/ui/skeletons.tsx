@@ -191,7 +191,7 @@ export function PostSkeleton() {
             <div className="animate-pulse">
                 <div className="flex items-center gap-x-4 text-xs">
                     <div
-                        className={`${shimmer} w-full max-w-0 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-0 relative overflow-hidden whitespace-nowrap`}
+                        className="w-full max-w-0 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-0 relative overflow-hidden whitespace-nowrap"
                     >
                         <div className="flex items-center gap-3">
                             <div className="h-3.5 w-44 bg-gray-100"></div>

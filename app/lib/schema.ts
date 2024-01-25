@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 // Define a schema for the post form values
 export const PostFormSchema = z.object({

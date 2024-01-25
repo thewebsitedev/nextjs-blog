@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import DashboardSidebar from './sidebar';
-import DashboardTopBar from './topbar';
-import DashboardFooter from './footer';
+import { useState } from "react"
+import DashboardSidebar from "./sidebar";
+import DashboardTopBar from "./topbar";
+import DashboardFooter from "./footer";
 
 // dashboard page structure
 export default function DashboardPageLayout({ children }: { children: React.ReactNode }) {

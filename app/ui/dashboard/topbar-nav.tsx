@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { usePathname } from 'next/navigation';
+import { usePathname } from "next/navigation";
 import { classNames } from "@/app/lib/utils";
 
 // dashboard topbar navigation

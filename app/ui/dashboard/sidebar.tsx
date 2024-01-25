@@ -1,19 +1,20 @@
-'use client';
+"use client";
 
-import { Fragment } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import { Fragment } from "react";
+import { Dialog, Transition } from "@headlessui/react";
 import {
   ArrowLeftStartOnRectangleIcon,
   Cog6ToothIcon,
   DocumentDuplicateIcon,
   HomeIcon,
   XMarkIcon,
-} from '@heroicons/react/24/outline'
-import Image from 'next/image';
-import { classNames } from '@/app/lib/utils';
-import { usePathname } from 'next/navigation';
-import NavigationSidebar from './navigation';
+} from "@heroicons/react/24/outline";
+import Image from "next/image";
+import { classNames } from "@/app/lib/utils";
+import { usePathname } from "next/navigation";
+import NavigationSidebar from "./navigation";
 
+// sidebar structure for the dashboard
 export default function DashboardSidebar({sidebarOpen, toggleSidebar} : {sidebarOpen: boolean, toggleSidebar: any}) {
   // get current path
   const pathname = usePathname();

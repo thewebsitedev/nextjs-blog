@@ -1,6 +1,6 @@
-import { fetchPosts } from '@/app/lib/data';
-import { LinkIcon } from '@heroicons/react/20/solid';
-import LinkButton from '../link';
+import { fetchPosts } from "@/app/lib/data";
+import { LinkIcon } from "@heroicons/react/20/solid";
+import LinkButton from "../link";
 
 // posts widget
 export default async function DashboardPostsWidget() {

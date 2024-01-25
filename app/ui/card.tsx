@@ -4,7 +4,7 @@ import { Post } from "@/app/lib/types";
 import LinkButton from "./link";
 import slugify from "react-slugify";
 import moment from "moment";
-import Markdown from 'react-markdown'
+import Markdown from "react-markdown";
 import Image from "next/image";
 
 // post card

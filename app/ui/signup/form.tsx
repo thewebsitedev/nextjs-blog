@@ -4,7 +4,7 @@ import { useFormState, useFormStatus } from "react-dom";
 import { signUp } from "@/app/lib/actions";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { classNames } from "@/app/lib/utils";
 import SocialLogins from "@/app/ui/social-logins";
 

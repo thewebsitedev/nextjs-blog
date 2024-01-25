@@ -1,11 +1,11 @@
 import { Suspense } from "react";
-import DashboardPageLayout from '@/app/ui/dashboard/layout';
+import DashboardPageLayout from "@/app/ui/dashboard/layout";
 import PostsTable from "@/app/ui/dashboard/posts/table";
-import { PostsTableSkeleton } from '@/app/ui/skeletons';
-import { ToastContainer } from 'react-toastify';
+import { PostsTableSkeleton } from "@/app/ui/skeletons";
+import { ToastContainer } from "react-toastify";
 import LinkButton from "@/app/ui/link";
 
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 // Dashboard posts page
 export default function DashboardPostsPage({
