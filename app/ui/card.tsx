@@ -72,7 +72,7 @@ export default async function Card({ post }: { post: Post}) {
                         />
                         <div className="text-sm leading-6">
                             <p className="font-semibold text-gray-900">
-                                <a href={`/author/${slugify(user?.name)}`}>
+                                <a href={`#`}>
                                     <span className="absolute inset-0" />
                                     {user?.name}
                                 </a>
