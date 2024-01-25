@@ -1,4 +1,4 @@
-import { getCategoryBySlug, getRelatedPosts } from "../lib/data";
+import { getCategoryBySlug, getRelatedPosts, fetchCategoryPostsPages } from "../lib/data";
 // import { fetchPostsPages } from "../lib/data";
 import DashboardPagination from "./dashboard/posts/pagination";
 import Card from "./card";
@@ -24,11 +24,16 @@ export default async function CategoryPosts({
     }
 
     const posts = await getRelatedPosts(category.categoryid, query, currentPage);
-    // const { totalPages, totalPosts } = await fetchPostsPages(query );
+
+    if ( ! posts ) {
+        notFound();
+    }
+
+    const { totalPages, totalPosts } = await fetchCategoryPostsPages(category.categoryid,query);
 
     // const posts:any = [];
-    const totalPages = 1;
-    const totalPosts = 1;
+    // const totalPages = 1;
+    // const totalPosts = 1;
 
     return (
         <div>

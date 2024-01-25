@@ -5,22 +5,22 @@ import Main from "@/app/ui/main";
 import Footer from "@/app/ui/footer";
 import { Suspense } from "react";
 import { PostsSkeleton } from "@/app/ui/skeletons";
+import { getCategoryBySlug } from "@/app/lib/data";
+import { notFound } from "next/navigation";
 
 // Dynamic metadata
-// export async function generateMetadata({ params }:{params: {slug: string}}) {
-//     const post = await fetchPostBySlug(params.slug);
+export async function generateMetadata({ params }:{params: {slug: string}}) {
+    const category = await getCategoryBySlug(params.slug);
 
-//     if ( ! post ) {
-//         notFound();
-//     }
+    if ( ! category ) {
+        notFound();
+    }
 
-//     const user = await getUserById(post.userid);
-//     return {
-//         title: post.title,
-//         description: post.summary,
-//         authors: [{ name: user.name }],
-//     }
-// }
+    return {
+        title: category.name,
+        description: category.description,
+    }
+}
 
 // This is the page that is loaded when the user visits a post.
 export default async function CategoryPage({

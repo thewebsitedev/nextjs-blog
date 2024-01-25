@@ -364,43 +364,26 @@ export async function getRelatedPosts(id: string, query: string,
     // page offset
     const offset = (currentPage - 1) * ARTICLES_PER_PAGE;
 
-    let rows:PostCategory[] = [];
-
-    // get post ids from postcategories table
-    try {
-        const postids = await sql<PostCategory>`
-            SELECT postid
-            FROM postcategories
-            WHERE categoryid = ${id}
-        `;
-        rows = postids.rows;
-    } catch (error) {
-        console.error("Database Error:", error);
-        throw new Error("Failed to fetch the category.");
-    }
-
-    // get posts from posts table
-    const postIdsString = rows.map((post) => post.postid); // Convert array to string
-
     let postRows = [];
 
     try {
         const posts = await sql<Post>`
             SELECT 
-                posts.postid,
-                posts.title,
-                posts.summary,
-                posts.createdat,
-                posts.status,
-                posts.userid
-            FROM posts
+                p.postid,
+                p.title,
+                p.summary,
+                p.createdat,
+                p.status,
+                p.userid
+            FROM posts p
+            JOIN postcategories pc ON p.postid = pc.postid
             WHERE 
-                postid = ANY(${postIdsString}) AND 
-                posts.status = 'published' AND (
-                    LOWER(posts.title) ILIKE LOWER(${`%${query}%`}) OR
-                    LOWER(posts.content) ILIKE LOWER(${`%${query}%`})
+                pc.categoryid = ${id} AND
+                p.status = 'published' AND (
+                    LOWER(p.title) ILIKE LOWER(${`%${query}%`}) OR
+                    LOWER(p.content) ILIKE LOWER(${`%${query}%`})
                 )
-            ORDER BY posts.createdat DESC
+            ORDER BY p.createdat DESC
             LIMIT ${ARTICLES_PER_PAGE} OFFSET ${offset}
         `;
         postRows = posts.rows;
@@ -413,21 +396,22 @@ export async function getRelatedPosts(id: string, query: string,
 }
 
 // get total number of posts for a search term
-export async function fetchCategoryPostsPages( query: string ) {
+export async function fetchCategoryPostsPages( id: string, query: string ) {
     // disable caching
     noStore();
 
     try {
         // run query
         const count = await sql`SELECT COUNT(*)
-        FROM posts
+        FROM posts p
+        JOIN postcategories pc ON p.postid = pc.postid
         WHERE 
-            posts.status = 'published' AND (
-            LOWER(posts.title) ILIKE LOWER(${`%${query}%`}) OR 
-            LOWER(posts.summary) ILIKE LOWER(${`%${query}%`}) OR
-            LOWER(posts.content) ILIKE LOWER(${`%${query}%`})
-        )
-    `;
+            pc.categoryid = ${id} AND
+            p.status = 'published' AND (
+                LOWER(p.title) ILIKE LOWER(${`%${query}%`}) OR
+                LOWER(p.content) ILIKE LOWER(${`%${query}%`})
+            )
+        `;
         // total posts count
         const totalPosts = Number(count.rows[0].count);
         // total pages

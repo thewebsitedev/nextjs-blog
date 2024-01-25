@@ -13,6 +13,7 @@ export default async function Post({ post }: { post: Post }) {
     return (
         <article className="post bg-white">
             <div className="mx-auto max-w-4xl text-base leading-7 text-gray-700">
+                {/* author */}
                 <div className="flex justify-between items-center mb-6">
                     <div className="flex w-full sm:items-center gap-x-5 sm:gap-x-3">
                         <div className="flex-shrink-0">
@@ -90,7 +91,7 @@ export default async function Post({ post }: { post: Post }) {
                         {categories.map((category) => (
                             <a
                                 key={category.categoryid}
-                                href={slugify(category.name)}
+                                href={`/category/${slugify(category.name)}`}
                                 className="m-0.5 inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                             >
                                 {category.name}

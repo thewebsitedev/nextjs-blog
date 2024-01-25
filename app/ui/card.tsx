@@ -40,7 +40,7 @@ export default async function Card({ post }: { post: Post}) {
                         categories.map((category) => (
                             <LinkButton
                                 key={category.categoryid}
-                                href={slugify(category.name)}
+                                href={`/category/${slugify(category.name)}`}
                                 className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
                                 content={category.name}
                             />
@@ -50,7 +50,7 @@ export default async function Card({ post }: { post: Post}) {
                 <div className="group relative max-w-xl">
                     {/* title */}
                     <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                        <a href={slugify(post.title)}>
+                        <a href={`/${slugify(post.title)}`}>
                             <span className="absolute inset-0" />
                             {post.title}
                         </a>
@@ -72,7 +72,7 @@ export default async function Card({ post }: { post: Post}) {
                         />
                         <div className="text-sm leading-6">
                             <p className="font-semibold text-gray-900">
-                                <a href={slugify(user?.name)}>
+                                <a href={`/author/${slugify(user?.name)}`}>
                                     <span className="absolute inset-0" />
                                     {user?.name}
                                 </a>
