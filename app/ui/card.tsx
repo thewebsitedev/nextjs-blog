@@ -16,7 +16,7 @@ export default async function Card({ post }: { post: Post}) {
 				<Image
 					src="https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3603&q=80"
 					alt=""
-					className="absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover"
+					className="absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover scale-100 top-0 start-0 transition-transform duration-500 ease-in-out hover:scale-105"
 					width={256}
 					height={256}
 				/>

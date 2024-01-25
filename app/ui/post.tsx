@@ -4,7 +4,6 @@ import { Post } from "@/app/lib/types";
 import slugify from "react-slugify";
 import moment from "moment";
 import Markdown from 'react-markdown'
-import { CheckCircleIcon, InformationCircleIcon } from "@heroicons/react/20/solid";
 
 export default async function Post({ post }: { post: Post}) {
     const categories = await fetchPostCategories(post.postid);

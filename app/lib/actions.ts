@@ -5,10 +5,11 @@ import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import slugify from 'react-slugify';
-import { auth, signIn, signOut } from '@/auth';
+import { auth, signIn, signOut, createUser } from '@/auth';
 import { AuthError } from 'next-auth';
 import { getUser } from './data';
-import { State } from './types';
+import { State, UserState } from './types';
+import { create } from 'domain';
 
 const PostFormSchema = z.object({
     postid: z.string(),
@@ -29,6 +30,21 @@ const PostFormSchema = z.object({
     userid: z.string(),
     status: z.enum(['published','draft', 'archived'], {
         invalid_type_error: 'Please select a post status.',
+    }),
+});
+
+const UserSchema = z.object({
+    userid: z.string(),
+    name: z.string({
+        invalid_type_error: 'Please enter a name.',
+    }).min(2, {
+        message: 'Name must be at least 2 characters.',
+    }),
+    email: z.string()
+        .min(1, { message: "Please enter valid email address." })
+        .email("Please enter valid email address."),
+    password: z.string().min(2, {
+        message: 'Password must be minimum 6 characters.',
     }),
 });
 
@@ -187,6 +203,64 @@ export async function deletePost(id: string) {
             message: 'Database Error: Failed to Delete Post.',
         };
     }
+}
+
+// Use Zod to update the expected types
+const User = UserSchema.omit({ userid: true });
+
+export async function signUp(
+    prevState: UserState,
+    formData: FormData,
+) {
+    // Validate the input data as necessary
+    const validatedFields = User.safeParse({
+        name: formData.get('name'),
+        email: formData.get('email'),
+        password: formData.get('password'),
+    });
+
+    if ( ! validatedFields.success ) {
+		return {
+		  errors: validatedFields.error.flatten().fieldErrors,
+		  message: 'Missing Fields. Failed to ceate user.',
+		};
+	}
+
+    const { name, email, password } = validatedFields.data;
+
+    // Call createUser to register the new user
+    try {
+        await createUser(name, email, password);
+    } catch (error) {
+        // If a database error occurs, return a more specific error.
+        return {
+            message: 'Database Error: Failed to Create User.'
+        };
+    }
+
+    // after registeration, sign in the user
+    try {
+        await signIn('credentials', formData);
+    } catch (error) {
+        if (error instanceof AuthError) {
+            switch (error.type) {
+            case 'CredentialsSignin':
+                return {
+                    message: 'Invalid credentials.'
+                };
+            default:
+                return {
+                    message: 'Something went wrong.'
+                };
+            }
+        }
+    }
+
+    console.log('user created successfully');
+
+    return {
+        message: 'success'
+    };
 }
 
 export async function authenticate(

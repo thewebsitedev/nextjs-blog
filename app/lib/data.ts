@@ -97,10 +97,8 @@ export async function fetchCategories() {
 
 export async function fetchPosts(count: number | null) {
     noStore();
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
-        // console.log('Fetching posts data...');
-        // await new Promise((resolve) => setTimeout(resolve, 10000));
-    
         const data = await sql<Post>`
         SELECT 
             posts.postid,

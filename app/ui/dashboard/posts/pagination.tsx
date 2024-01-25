@@ -19,7 +19,7 @@ export default function DashboardPagination({totalPages, totalPosts, page}:{tota
         >
             <div className="hidden sm:block">
                 <p className="text-sm text-gray-700">
-                Showing <span className="font-medium">{page}</span> to <span className="font-medium">{totalPages}</span> of{' '}
+                Showing <span className="font-medium">{totalPosts > 0 ? page : 0}</span> to <span className="font-medium">{totalPages}</span> of{' '}
                 <span className="font-medium">{totalPosts}</span> results
                 </p>
             </div>
@@ -38,20 +38,5 @@ export default function DashboardPagination({totalPages, totalPosts, page}:{tota
                 </a>
             </div>
         </nav>
-        // <div className="flex justify-center items-center gap-2">
-        //     {pages.map((page) => (
-        //         <a
-        //             key={page}
-        //             href={hrefBuilder(page)}
-        //             className={`px-4 py-2 rounded-md ${
-        //                 page === current
-        //                     ? "bg-gray-900 text-white"
-        //                     : "bg-gray-100 text-gray-900"
-        //             }`}
-        //         >
-        //             {page}
-        //         </a>
-        //     ))}
-        // </div>
     );
 }

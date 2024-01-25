@@ -39,3 +39,13 @@ export const { auth, signIn, signOut } = NextAuth({
     }),
   ],
 });
+
+const saltRounds = 10; // For bcrypt hashing
+
+export async function createUser(name: string, email: string, password: string): Promise<User> {
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  // Use your SQL library to insert the new user into your database
+  // Make sure to handle any potential errors, such as duplicate emails
+  const result = await sql<User>`INSERT INTO users (name, email, password) VALUES (${name}, ${email}, ${hashedPassword}) RETURNING *;`;
+  return result.rows[0];
+}

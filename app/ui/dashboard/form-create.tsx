@@ -7,12 +7,11 @@ import { Category } from "@/app/lib/types";
 import InputCategory from "./input-category";
 import { Suspense } from "react";
 import { InputCategorySkeleton } from "../skeletons";
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { set } from "zod";
 
-import { useEffect } from "react";
-import { clear } from "console";
+import { useEffect, useState } from "react";
+import Markdown from "react-markdown";
 
 export default function DashboardFormCreatePost({
     categories,
@@ -21,17 +20,25 @@ export default function DashboardFormCreatePost({
 }) {
     const initialState = { message: "", errors: {} };
     const [state, dispatch] = useFormState(createPost, initialState);
+    const [content, setContent] = useState('');
+    const router = useRouter();
 
     useEffect(() => {
         if ('success' === state.message) {
             toast.success("Post created successfully");
+            const timer = setTimeout(() => {
+                router.push('/dashboard/posts');
+              }, 1000); // Delay
+          
+              // Cleanup function to clear the timeout
+              return () => clearTimeout(timer);
         }
         // check errors length
         const length = state.errors?.title?.length || 0;
         if ( length > 0 ) {
             toast.error("Please fix the errors");
         }
-    }, [state]);
+    }, [state, router]);
 
     return (
         <form action={dispatch}>
@@ -60,33 +67,6 @@ export default function DashboardFormCreatePost({
                             <div id="error-title" aria-live="polite" aria-atomic="true">
                                 {state.errors?.title &&
                                     state.errors.title.map((error: string) => (
-                                    <p className="mt-2 text-sm text-red-500" key={error}>
-                                        {error}
-                                    </p>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="col-span-full">
-                            <label
-                                htmlFor="content"
-                                className="block text-sm font-medium leading-6 text-gray-900"
-                            >
-                                Content
-                            </label>
-                            <div className="mt-2">
-                                <textarea
-                                    id="content"
-                                    name="content"
-                                    rows={3}
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    placeholder="Write in as much detail as possible"
-                                    aria-describedby="error-content"
-                                />
-                            </div>
-                            <div id="error-content" aria-live="polite" aria-atomic="true">
-                                {state.errors?.content &&
-                                    state.errors.content.map((error: string) => (
                                     <p className="mt-2 text-sm text-red-500" key={error}>
                                         {error}
                                     </p>
@@ -127,6 +107,47 @@ export default function DashboardFormCreatePost({
                         <Suspense fallback={<InputCategorySkeleton />}>
                             <InputCategory categories={categories} selected={undefined} />
                         </Suspense>
+
+                        <div className="col-span-full sm:col-span-3">
+                            <label
+                                htmlFor="content"
+                                className="block text-sm font-medium leading-6 text-gray-900"
+                            >
+                                Content
+                            </label>
+                            <div className="mt-2">
+                                <textarea
+                                    id="content"
+                                    name="content"
+                                    rows={3}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    placeholder="A very basic markdown supported editor. Try ## Title to get a feel of it."
+                                    aria-describedby="error-content"
+                                    onChange={(e) => setContent(e.target.value)}
+                                />
+                            </div>
+                            <div id="error-content" aria-live="polite" aria-atomic="true">
+                                {state.errors?.content &&
+                                    state.errors.content.map((error: string) => (
+                                    <p className="mt-2 text-sm text-red-500" key={error}>
+                                        {error}
+                                    </p>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="col-span-full sm:col-span-3">
+                            <label
+                                htmlFor="preview"
+                                className="block text-sm font-medium leading-6 text-gray-900"
+                            >
+                                Preview
+                            </label>
+                            <div className="post mt-2">
+                                <Markdown>
+                                    {content}
+                                </Markdown>
+                            </div>
+                        </div>
 
                         {/* <div className="col-span-full">
                             <label

@@ -22,9 +22,7 @@ export default function DashboardPostsPage({
                         Posts
                     </h1>
                     <p className="mt-2 text-sm text-gray-700">
-                        A list of all the posts in your account
-                        including their title, created at,
-                        status and categories.
+                        A list of all the posts in your account including their title, creation date and status.
                     </p>
                 </div>
                 <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">

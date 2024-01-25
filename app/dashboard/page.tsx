@@ -1,7 +1,7 @@
 import DashboardPageLayout from '@/app/ui/dashboard/layout';
 import Welcome from '../ui/dashboard/welcome';
 import { Suspense } from 'react';
-import { WelcomeSkeleton } from '../ui/skeletons';
+import { WelcomeSkeleton, DashboardPostsWidgetSkeleton } from '../ui/skeletons';
 import { Metadata } from 'next';
 import DashboardPostWidget from '../ui/dashboard/post-widget';
 
@@ -15,7 +15,9 @@ export default function DashboardPostsPage() {
             <Suspense fallback={<WelcomeSkeleton />}>
                 <Welcome />
             </Suspense>
-            <DashboardPostWidget />
+            <Suspense fallback={<DashboardPostsWidgetSkeleton />}>
+                <DashboardPostWidget />
+            </Suspense>
         </DashboardPageLayout>
     )
 }

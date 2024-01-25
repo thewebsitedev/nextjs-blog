@@ -180,10 +180,10 @@ export function PostSkeleton() {
         <article
             className="relative isolate flex flex-col gap-8 lg:flex-row"
         >
-            <div className="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-64 lg:shrink-0">
+            <div className="animate-pulse relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-64 lg:shrink-0">
                 <div className="bg-gray-100 absolute inset-0 rounded-2xl" />
             </div>
-            <div>
+            <div className="animate-pulse">
                 <div className="flex items-center gap-x-4 text-xs">
                     <div
                         className={`${shimmer} w-full max-w-0 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-0 relative overflow-hidden whitespace-nowrap`}
@@ -240,5 +240,110 @@ export function PostsSkeleton() {
 }
 
 export function WelcomeSkeleton() {
-    return <div className='w-64 h-7 text-xl font-bold mb-2 bg-gray-100 overflow-hidden rounded whitespace-nowrap'></div>
+    return <div className='w-64 h-7 text-xl font-bold mb-4 bg-gray-100 overflow-hidden rounded whitespace-nowrap'></div>
+}
+
+export function DashboardPostsWidgetSkeleton() {
+    return (
+        <div className="overflow-hidden bg-white sm:rounded-lg sm:shadow">
+            <div className="border-b border-gray-200 bg-white py-4">
+                <div className="-ml-4 -mt-4 flex flex-wrap items-center justify-between sm:flex-nowrap px-4">
+                    <div className="ml-4 mt-4">
+                        <div className="w-28 h-6 text-xl font-bold mb-2 bg-gray-100 overflow-hidden rounded whitespace-nowrap">
+                        </div>
+                        <div className="w-60 h-5 text-xl font-bold mb-2 bg-gray-100 overflow-hidden rounded whitespace-nowrap">
+                        </div>
+                    </div>
+                    <div className="ml-4 mt-4 flex-shrink-0">
+                        <div
+                            className="w-20 h-9 text-xl font-bold mb-2 bg-gray-100 overflow-hidden rounded-md whitespace-nowrap"
+                        >
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ul role="list" className="divide-y divide-gray-200">
+                <li>
+                    <div className="block hover:bg-gray-50 px-4">
+                        <div className="py-4">
+                            <div className="flex items-center justify-between">
+                                <div className="w-96 h-5 text-xl font-bold mb-2 bg-gray-100 overflow-hidden rounded-md whitespace-nowrap">
+                                </div>
+                                <div className="ml-2 flex flex-shrink-0">
+                                    <div
+                                        className="w-16 h-5 text-xl font-bold mb-2 bg-gray-100 overflow-hidden rounded-md whitespace-nowrap"
+                                    >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div className="block hover:bg-gray-50 px-4">
+                        <div className="py-4">
+                            <div className="flex items-center justify-between">
+                                <div className="w-4/6 h-5 text-xl font-bold mb-2 bg-gray-100 overflow-hidden rounded-md whitespace-nowrap">
+                                </div>
+                                <div className="ml-2 flex flex-shrink-0">
+                                    <div
+                                        className="w-16 h-5 text-xl font-bold mb-2 bg-gray-100 overflow-hidden rounded-md whitespace-nowrap"
+                                    >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div className="block hover:bg-gray-50 px-4">
+                        <div className="py-4">
+                            <div className="flex items-center justify-between">
+                                <div className="w-96 h-5 text-xl font-bold mb-2 bg-gray-100 overflow-hidden rounded-md whitespace-nowrap">
+                                </div>
+                                <div className="ml-2 flex flex-shrink-0">
+                                    <div
+                                        className="w-16 h-5 text-xl font-bold mb-2 bg-gray-100 overflow-hidden rounded-md whitespace-nowrap"
+                                    >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div className="block hover:bg-gray-50 px-4">
+                        <div className="py-4">
+                            <div className="flex items-center justify-between">
+                                <div className="w-5/6 h-5 text-xl font-bold mb-2 bg-gray-100 overflow-hidden rounded-md whitespace-nowrap">
+                                </div>
+                                <div className="ml-2 flex flex-shrink-0">
+                                    <div
+                                        className="w-16 h-5 text-xl font-bold mb-2 bg-gray-100 overflow-hidden rounded-md whitespace-nowrap"
+                                    >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div className="block hover:bg-gray-50 px-4">
+                        <div className="py-4">
+                            <div className="flex items-center justify-between">
+                                <div className="w-96 h-5 text-xl font-bold mb-2 bg-gray-100 overflow-hidden rounded-md whitespace-nowrap">
+                                </div>
+                                <div className="ml-2 flex flex-shrink-0">
+                                    <div
+                                        className="w-16 h-5 text-xl font-bold mb-2 bg-gray-100 overflow-hidden rounded-md whitespace-nowrap"
+                                    >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    );
 }
