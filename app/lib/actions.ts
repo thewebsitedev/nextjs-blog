@@ -218,7 +218,7 @@ export async function signUp(prevState: UserState, formData: FormData) {
     });
 
     // If form validation fails, return errors early. Otherwise, continue.
-    if (!validatedFields.success) {
+    if ( ! validatedFields.success ) {
         return {
             errors: validatedFields.error.flatten().fieldErrors,
             message: "Missing Fields. Failed to ceate user.",

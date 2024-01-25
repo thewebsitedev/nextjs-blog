@@ -1,5 +1,5 @@
 import Image from "next/image";
-import SignupForm from "@/app/ui/signup/login";
+import SignupForm from "@/app/ui/signup/form";
 import LinkButton from "@/app/ui/link";
 import { ToastContainer } from "react-toastify";
 

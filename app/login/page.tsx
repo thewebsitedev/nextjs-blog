@@ -1,6 +1,9 @@
 import Image from "next/image";
 import LoginForm from "../ui/login/form";
 import LinkButton from "../ui/link";
+import { ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 // structure for the login page
 export default function LoginPage() {
@@ -29,6 +32,7 @@ export default function LoginPage() {
 					/>
                 </p>
             </div>
+            <ToastContainer />
         </div>
     );
 }

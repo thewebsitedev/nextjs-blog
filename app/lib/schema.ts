@@ -34,7 +34,7 @@ export const UserSchema = z.object({
     email: z.string()
         .min(1, { message: "Please enter valid email address." })
         .email("Please enter valid email address."),
-    password: z.string().min(2, {
+    password: z.string().min(6, {
         message: 'Password must be minimum 6 characters.',
     }),
 });

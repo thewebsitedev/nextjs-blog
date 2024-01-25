@@ -10,29 +10,36 @@ import { classNames } from "@/app/lib/utils";
 export default function SignupForm() {
     const initialState = { message: "", errors: {} };
     const [state, dispatch] = useFormState(signUp, initialState);
-    const { pending } = useFormStatus();
     const router = useRouter();
 
     const [ loading, setLoading ] = useState(false);
 
     useEffect(() => {
-        if (state.message === "success") {
+        // success
+        if ( state.message === "success" ) {
             toast.success(state.message);
             const timer = setTimeout(() => {
-              router.push('/dashboard');
-            }, 1000); // Delay
-        
+              router.push( '/dashboard' );
+            }, 1000); // Delay 1 second
             // Cleanup function to clear the timeout
             return () => clearTimeout(timer);
         }
+        // errors
+        if ( state.errors && Object.keys(state.errors).length > 0 ) {
+            toast.error( "Please fix the errors in the form" );
+            setLoading(false);
+        }
     }, [state, router]);
 
+    // form submit handler instead of form action
+    // to be able to manage the state
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       setLoading(true);
       const data = new FormData(e.currentTarget);
       dispatch(data);
     }
+
     return (
         <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
             <form className="space-y-6" onSubmit={handleSubmit}>
@@ -52,7 +59,16 @@ export default function SignupForm() {
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
                     </div>
+                    <div id="error-name" aria-live="polite" aria-atomic="true">
+                        {state.errors?.name &&
+                            state.errors.name.map((error: string) => (
+                            <p className="mt-2 text-sm text-red-500" key={error}>
+                                {error}
+                            </p>
+                        ))}
+                    </div>
                 </div>
+
                 <div>
                     <label
                         htmlFor="email"
@@ -69,6 +85,14 @@ export default function SignupForm() {
                             required
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                    </div>
+                    <div id="error-email" aria-live="polite" aria-atomic="true">
+                        {state.errors?.email &&
+                            state.errors.email.map((error: string) => (
+                            <p className="mt-2 text-sm text-red-500" key={error}>
+                                {error}
+                            </p>
+                        ))}
                     </div>
                 </div>
 
@@ -88,6 +112,14 @@ export default function SignupForm() {
                             required
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                    </div>
+                    <div id="error-password" aria-live="polite" aria-atomic="true">
+                        {state.errors?.password &&
+                            state.errors.password.map((error: string) => (
+                            <p className="mt-2 text-sm text-red-500" key={error}>
+                                {error}
+                            </p>
+                        ))}
                     </div>
                 </div>
 
@@ -136,17 +168,6 @@ export default function SignupForm() {
                     </button>
                 </div>
             </form>
-
-            {state && (
-                <div
-                className="flex justify-center h-8"
-                aria-live="polite"
-                aria-atomic="true"
-                >
-                {/* <p className="flex justify-center text-sm text-red-500 mt-3"><ExclamationCircleIcon className="h-5 w-5 text-red-500 mr-1" />{state}</p> */}
-                </div>
-            )}
-
             <div>
                 <div className="relative mt-10">
                     <div
@@ -161,7 +182,6 @@ export default function SignupForm() {
                         </span>
                     </div>
                 </div>
-
                 <div className="mt-6 grid grid-cols-2 gap-4">
                     <a
                         href="#"
