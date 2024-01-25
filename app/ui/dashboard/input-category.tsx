@@ -1,5 +1,6 @@
 import { Category } from "@/app/lib/types";
 
+// input category field
 export default function InputCategory({ categories, selected }:{
     categories: Category[],
     selected: string[] | undefined,

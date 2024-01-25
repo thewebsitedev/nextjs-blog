@@ -1,8 +1,12 @@
 import { fetchPosts } from '@/app/lib/data';
 import { LinkIcon } from '@heroicons/react/20/solid';
+import LinkButton from '../link';
 
+// posts widget
 export default async function DashboardPostsWidget() {
+    // fetch posts
     const posts = await fetchPosts(5);
+
     return (
         <div className="overflow-hidden bg-white sm:rounded-lg sm:shadow">
             <div className="border-b border-gray-200 bg-white py-4">
@@ -16,15 +20,15 @@ export default async function DashboardPostsWidget() {
                         </p>
                     </div>
                     <div className="ml-4 mt-4 flex-shrink-0">
-                        <a
+                        <LinkButton
                             href="/dashboard/posts"
                             className="relative inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                        >
-                            All Posts
-                        </a>
+                            content="All Posts"
+                        />
                     </div>
                 </div>
             </div>
+            {/* posts */}
             <ul role="list" className="divide-y divide-gray-200">
                 {
                     posts.map((post) => (
@@ -51,7 +55,6 @@ export default async function DashboardPostsWidget() {
                         </li>
                     ))
                 }
-                
             </ul>
         </div>
     );

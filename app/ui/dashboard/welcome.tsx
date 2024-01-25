@@ -1,5 +1,6 @@
 import { auth } from "@/auth"
 
+// user welcome text in dashboard
 export default async function Welcome() {
     await new Promise(resolve => setTimeout(resolve, 1000));
     const session = await auth();

@@ -1,13 +1,17 @@
 import { fetchPostCategories, getUserById } from "../lib/data";
-import Image from "next/image";
+import { getRandomThumbnail } from "../lib/utils";
 import { Post } from "@/app/lib/types";
+import LinkButton from "./link";
 import slugify from "react-slugify";
 import moment from "moment";
 import Markdown from 'react-markdown'
-import { getRandomThumbnail } from "../lib/utils";
+import Image from "next/image";
 
+// post card
 export default async function Card({ post }: { post: Post}) {
+    // fetch post categories
     const categories = await fetchPostCategories(post.postid);
+    // fetch post author
     const user = await getUserById(post.userid);
     return (
         <article
@@ -25,33 +29,38 @@ export default async function Card({ post }: { post: Post}) {
                 <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
             </div>
             <div>
+                {/* metadata */}
                 <div className="flex items-center gap-x-4 text-xs">
+                    {/* date */}
                     <time dateTime={post.createdat.toISOString()} className="text-gray-500">
                         {moment(post.createdat).format('MMM D')}
                     </time>
+                    {/* categories */}
                     {
                         categories.map((category) => (
-                            <a
+                            <LinkButton
                                 key={category.categoryid}
                                 href={slugify(category.name)}
                                 className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-                            >
-                                {category.name}
-                            </a>
+                                content={category.name}
+                            />
                         ))
                     }
                 </div>
                 <div className="group relative max-w-xl">
+                    {/* title */}
                     <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
                         <a href={slugify(post.title)}>
                             <span className="absolute inset-0" />
                             {post.title}
                         </a>
                     </h3>
+                    {/* summary */}
                     <div className="min-h-[48px] mt-5 text-sm leading-6 text-gray-600">
                         <Markdown>{post.summary}</Markdown>
                     </div>
                 </div>
+                {/* Author */}
                 <div className="mt-6 flex border-t border-gray-900/5 pt-6">
                     <div className="relative flex items-center gap-x-4">
                         <Image

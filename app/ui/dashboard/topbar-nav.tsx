@@ -3,8 +3,11 @@
 import { usePathname } from 'next/navigation';
 import { classNames } from "@/app/lib/utils";
 
+// dashboard topbar navigation
 export default function DashboardTopBarNav() {
+    // get current path
     const pathname = usePathname();
+    // navigation links
     const navigation = [
         { name: 'Dashboard', href: '/dashboard', current: pathname === '/dashboard'},
         { name: 'Posts', href: '/dashboard/posts', current: pathname === '/dashboard/posts'},

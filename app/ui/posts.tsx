@@ -1,8 +1,9 @@
 import { fetchPaginatedPosts } from "../lib/data";
+import { fetchPostsPages } from "../lib/data";
 import DashboardPagination from "./dashboard/posts/pagination";
 import Card from "./card";
-import { fetchPostsPages } from "../lib/data";
 
+// blog posts page.
 export default async function Posts({
     searchParams,
   }: {
@@ -17,8 +18,8 @@ export default async function Posts({
     const { totalPages, totalPosts } = await fetchPostsPages(query );
 
     return (
-        <div className="">
-            <div className="">
+        <div>
+            <div>
                 <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                     The Latest
                 </h2>
@@ -33,9 +34,15 @@ export default async function Posts({
                 </div> : <div className="text-gray-400 italic mt-12">Sorry, no posts found. Please try a different search.</div>
                 }
             </div>
-            {posts.length ? <>
-            <div className="mt-8 sm:mt-12 lg:mt-16"></div>
-            <DashboardPagination totalPages={totalPages} totalPosts={totalPosts} page={currentPage} /></> : ''}
+            {/* display posts */}
+            {
+            posts.length ? 
+                <>
+                    <div className="mt-8 sm:mt-12 lg:mt-16"></div>
+                    <DashboardPagination totalPages={totalPages} totalPosts={totalPosts} page={currentPage} />
+                </> : 
+                ''
+            }
         </div>
     );
 }

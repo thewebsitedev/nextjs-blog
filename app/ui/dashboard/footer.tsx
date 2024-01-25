@@ -1,3 +1,4 @@
+// social links with icons
 const social = [
     {
         name: "Facebook",
@@ -40,6 +41,7 @@ const social = [
     },
 ];
 
+// dashboard footer structure
 export default function DashboardFooter() {
     return (
         <footer className="bg-white" aria-labelledby="footer-heading">
@@ -48,6 +50,7 @@ export default function DashboardFooter() {
             </div>
             <div className="px-4 pb-8 sm:px-6 lg:px-8 mt-0 pt-8">
                 <div className="sm:flex sm:items-center sm:justify-between sm:align-middle">
+                    {/* socials */}
                     <div className="flex space-x-6 sm:order-2 justify-center sm:justify-normal sm:align-middle">
                         {social.map((item) => (
                             <a
@@ -63,6 +66,7 @@ export default function DashboardFooter() {
                             </a>
                         ))}
                     </div>
+                    {/* copyright */}
                     <p className="mt-8 sm:mt-0 text-xs text-center sm:text-left leading-5 text-gray-500 sm:order-1 md:mt-0">
                         &copy; 2024 Next Gen Blog, Inc. All rights reserved.
                     </p>

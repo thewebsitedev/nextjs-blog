@@ -1,5 +1,6 @@
 import { logout } from "@/app/lib/actions";
 
+// logout button
 export default async function Logout() {
     return (
         <form

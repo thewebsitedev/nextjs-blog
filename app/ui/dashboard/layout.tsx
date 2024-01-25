@@ -3,13 +3,8 @@ import DashboardSidebar from './sidebar';
 import DashboardTopBar from './topbar';
 import DashboardFooter from './footer';
 
+// dashboard page structure
 export default function DashboardPageLayout({ children }: { children: React.ReactNode }) {
-  // const [sidebarOpen, setSidebarOpen] = useState(false)
-
-  // const toggleSidebar = () => {
-  //   setSidebarOpen(!sidebarOpen);
-  // }
-
   return (
     <div>
       <DashboardSidebar sidebarOpen={false} toggleSidebar={false} />

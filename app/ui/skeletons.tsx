@@ -1,6 +1,6 @@
-const shimmer =
-    "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
+// Skeletons for loading state
 
+// table rows placeholder until posts data is fetched
 export function TableRowSkeleton() {
     return (
         <tr
@@ -8,7 +8,7 @@ export function TableRowSkeleton() {
         >
             {/* Post title */}
             <td
-                className={`${shimmer} w-full max-w-0 py-6 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-0 relative overflow-hidden whitespace-nowrap`}
+                className={`w-full max-w-0 py-6 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-0 relative overflow-hidden whitespace-nowrap`}
             >
                 <div className="flex items-center gap-3">
                     <div className="h-5 w-96 rounded bg-gray-100"></div>
@@ -33,6 +33,7 @@ export function TableRowSkeleton() {
     );
 }
 
+// pagination placeholder until pagination data is fetched
 export function PaginationSkeleton() {
     return (
         <div
@@ -57,6 +58,7 @@ export function PaginationSkeleton() {
     );
 }
 
+// post table placeholder, wrapper for table row and pagination
 export function PostsTableSkeleton() {
     return (
         <>
@@ -108,6 +110,7 @@ export function PostsTableSkeleton() {
     );
 }
 
+// category input placeholder until categories data is fetched
 export function InputCategorySkeleton() {
     return (
         <div className="col-span-full">
@@ -131,6 +134,7 @@ export function InputCategorySkeleton() {
     );
 }
 
+// card placeholder until post data is fetched
 export function CardSkeleton() {
     return (
         <article
@@ -142,7 +146,7 @@ export function CardSkeleton() {
             <div>
                 <div className="flex items-center gap-x-4 text-xs">
                     <div
-                        className={`${shimmer} w-28 text-sm font-medium text-gray-900 sm:w-auto overflow-hidden`}
+                        className={`w-28 text-sm font-medium text-gray-900 sm:w-auto overflow-hidden`}
                     >
                         <div className="flex items-center gap-3">
                             <div className="h-3.5 w-44 bg-gray-50"></div>
@@ -175,6 +179,7 @@ export function CardSkeleton() {
     );
 }
 
+// post placeholder until post data is fetched
 export function PostSkeleton() {
     return (
         <article
@@ -219,6 +224,7 @@ export function PostSkeleton() {
     );
 }
 
+// posts splaceholder, wrapper for card skeleton
 export function PostsSkeleton() {
     return (
         <>
@@ -239,10 +245,12 @@ export function PostsSkeleton() {
     );
 }
 
+// welcome text placeholder until user name is fetched
 export function WelcomeSkeleton() {
     return <div className='w-64 h-7 text-xl font-bold mb-4 bg-gray-100 overflow-hidden rounded whitespace-nowrap'></div>
 }
 
+// dashboard recent posts widget placeholder
 export function DashboardPostsWidgetSkeleton() {
     return (
         <div className="overflow-hidden bg-white sm:rounded-lg sm:shadow">

@@ -182,6 +182,7 @@ export async function updatePost(
     }
 
     // revalidate the cache
+    revalidatePath(`/${slug}`);
     revalidatePath("/dashboard/posts");
 
     return { message: "success" };

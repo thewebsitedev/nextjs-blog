@@ -1,11 +1,12 @@
 import { fetchUserPaginatedPosts, fetchUserPostsPages } from "@/app/lib/data";
 import { DeletePost } from "@/app/ui/dashboard/posts/buttons";
 import { PencilIcon } from "@heroicons/react/24/outline";
-import moment from "moment";
-import DashboardPagination from "./pagination";
 import { auth } from "@/auth";
 import { getUser } from "@/app/lib/data";
+import moment from "moment";
+import DashboardPagination from "./pagination";
 
+// dashboard posts table
 export default async function PostsTable({
     searchParams,
   }: {
@@ -29,6 +30,7 @@ export default async function PostsTable({
     }
 
     if (totalPosts <= 0) {
+        // empty state
         return <a
         href="/dashboard/posts/create"
         className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -50,6 +52,7 @@ export default async function PostsTable({
         <span className="mt-2 block text-sm font-semibold text-gray-900">Get started by creating a new post</span>
       </a>
     } else {
+        // posts table and pagination
         return (
             <>
                 <table className="min-w-full divide-y divide-gray-300">
