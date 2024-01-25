@@ -1,5 +1,5 @@
 import { sql } from "@vercel/postgres";
-import { User, Post, Category } from "./types";
+import { User, Post, Category, PostCategory } from "./types";
 import { unstable_noStore as noStore } from "next/cache";
 
 const ITEMS_PER_PAGE = 10;
@@ -329,6 +329,120 @@ export async function fetchPaginatedPosts(
 
         console.error( "Database Error:", error );
         throw new Error( "Failed to fetch posts." );
+
+    }
+}
+
+// get category id from category slug
+export async function getCategoryBySlug(slug: string) {
+    // disable caching
+    noStore();
+    try {
+        // run query to get category
+        const category = await sql<Category>`
+        SELECT 
+            categories.categoryid,
+            categories.name,
+            categories.description
+        FROM categories
+        WHERE categories.slug = ${slug}`;
+
+        // return category id
+        return category.rows[0];
+    } catch (error) {
+        console.error("Database Error:", error);
+        throw new Error("Failed to fetch the category.");
+    }
+}
+
+// get category relations with posts
+// display related posts
+export async function getRelatedPosts(id: string, query: string,
+    currentPage: number) {
+    // disable caching
+    noStore();
+    // page offset
+    const offset = (currentPage - 1) * ARTICLES_PER_PAGE;
+
+    let rows:PostCategory[] = [];
+
+    // get post ids from postcategories table
+    try {
+        const postids = await sql<PostCategory>`
+            SELECT postid
+            FROM postcategories
+            WHERE categoryid = ${id}
+        `;
+        rows = postids.rows;
+    } catch (error) {
+        console.error("Database Error:", error);
+        throw new Error("Failed to fetch the category.");
+    }
+
+    // get posts from posts table
+    const postIdsString = rows.map((post) => post.postid); // Convert array to string
+
+    let postRows = [];
+
+    try {
+        const posts = await sql<Post>`
+            SELECT 
+                posts.postid,
+                posts.title,
+                posts.summary,
+                posts.createdat,
+                posts.status,
+                posts.userid
+            FROM posts
+            WHERE 
+                postid = ANY(${postIdsString}) AND 
+                posts.status = 'published' AND (
+                    LOWER(posts.title) ILIKE LOWER(${`%${query}%`}) OR
+                    LOWER(posts.content) ILIKE LOWER(${`%${query}%`})
+                )
+            ORDER BY posts.createdat DESC
+            LIMIT ${ARTICLES_PER_PAGE} OFFSET ${offset}
+        `;
+        postRows = posts.rows;
+    } catch ( error ) {
+        console.error( "Database Error:", error );
+        throw new Error( "Failed to fetch posts." );
+    }
+
+    return postRows;
+}
+
+// get total number of posts for a search term
+export async function fetchCategoryPostsPages( query: string ) {
+    // disable caching
+    noStore();
+
+    try {
+        // run query
+        const count = await sql`SELECT COUNT(*)
+        FROM posts
+        WHERE 
+            posts.status = 'published' AND (
+            LOWER(posts.title) ILIKE LOWER(${`%${query}%`}) OR 
+            LOWER(posts.summary) ILIKE LOWER(${`%${query}%`}) OR
+            LOWER(posts.content) ILIKE LOWER(${`%${query}%`})
+        )
+    `;
+        // total posts count
+        const totalPosts = Number(count.rows[0].count);
+        // total pages
+        const totalPages = Math.ceil(
+            Number(count.rows[0].count) / ARTICLES_PER_PAGE
+        );
+
+        return {
+            totalPages,
+            totalPosts,
+        };
+    } catch ( error ) {
+
+        console.error( "Database Error:", error );
+        throw new Error( "Failed to fetch total number of invoices." );
 
     }
 }

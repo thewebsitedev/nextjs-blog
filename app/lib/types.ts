@@ -20,8 +20,16 @@ export type User = {
 };
 
 export type Category = {
+    postCategoryId: string;
     categoryid: string;
     name: string;
+    description: string;
+};
+
+export type PostCategory = {
+
+    categoryid: string;
+    postid: string;
     description: string;
 };
 
