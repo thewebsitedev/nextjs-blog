@@ -7,8 +7,10 @@ import { Category, Post } from "@/app/lib/types";
 import InputCategory from "./input-category";
 import { Suspense } from "react";
 import { InputCategorySkeleton } from "../skeletons";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import Markdown from "react-markdown";
 
 export default function DashboardFormEditPost(
     { post, categories, selected } : { post: Post, categories: Category[], selected: string[]}
@@ -18,17 +20,25 @@ export default function DashboardFormEditPost(
 
     const initialState = { message: "", errors: {} };
     const [state, dispatch] = useFormState(updatePostWithId, initialState);
+    const [content, setContent] = useState(post.content);
+    const router = useRouter();
 
     useEffect(() => {
         if ('success' === state.message) {
             toast.success("Post edited successfully");
+            const timer = setTimeout(() => {
+                router.push('/dashboard/posts');
+            }, 1000); // Delay
+          
+            // Cleanup function to clear the timeout
+            return () => clearTimeout(timer);
         }
         // check errors length
         const length = state.errors?.title?.length || 0;
         if ( length > 0 ) {
             toast.error("Please fix the errors");
         }
-    }, [state]);
+    }, [state, router]);
 
     return (
         <form action={dispatch}>
@@ -95,32 +105,6 @@ export default function DashboardFormEditPost(
 
                         <div className="col-span-full">
                             <label
-                                htmlFor="content"
-                                className="block text-sm font-medium leading-6 text-gray-900"
-                            >
-                                Content
-                            </label>
-                            <div className="mt-2">
-                                <textarea
-                                    id="content"
-                                    name="content"
-                                    rows={3}
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    defaultValue={post.content}
-                                />
-                            </div>
-                            <div id="error-content" aria-live="polite" aria-atomic="true">
-                                {state.errors?.content &&
-                                    state.errors.content.map((error: string) => (
-                                    <p className="mt-2 text-sm text-red-500" key={error}>
-                                        {error}
-                                    </p>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="col-span-full">
-                            <label
                                 htmlFor="status"
                                 className="block text-sm font-medium leading-6 text-gray-900"
                             >
@@ -145,42 +129,45 @@ export default function DashboardFormEditPost(
                             <InputCategory categories={categories} selected={selected} />
                         </Suspense>
 
-                        {/* <div className="col-span-full">
+                        <div className="col-span-full sm:col-span-3">
                             <label
-                                htmlFor="featured-image"
+                                htmlFor="content"
                                 className="block text-sm font-medium leading-6 text-gray-900"
                             >
-                                Featured Image
+                                Content
                             </label>
-                            <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                                <div className="text-center">
-                                    <PhotoIcon
-                                        className="mx-auto h-12 w-12 text-gray-300"
-                                        aria-hidden="true"
-                                    />
-                                    <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                                        <label
-                                            htmlFor="featured-image"
-                                            className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                                        >
-                                            <span>Upload a file</span>
-                                            <input
-                                                id="featured-image"
-                                                name="featured-image"
-                                                type="file"
-                                                className="sr-only"
-                                            />
-                                        </label>
-                                        <p className="pl-1">
-                                            or drag and drop
-                                        </p>
-                                    </div>
-                                    <p className="text-xs leading-5 text-gray-600">
-                                        PNG, JPG, GIF up to 10MB
-                                    </p>
-                                </div>
+                            <div className="mt-2">
+                                <textarea
+                                    id="content"
+                                    name="content"
+                                    rows={3}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    defaultValue={post.content}
+                                    onChange={(e) => setContent(e.target.value)}
+                                />
                             </div>
-                        </div> */}
+                            <div id="error-content" aria-live="polite" aria-atomic="true">
+                                {state.errors?.content &&
+                                    state.errors.content.map((error: string) => (
+                                    <p className="mt-2 text-sm text-red-500" key={error}>
+                                        {error}
+                                    </p>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="col-span-full sm:col-span-3">
+                            <label
+                                htmlFor="preview"
+                                className="block text-sm font-medium leading-6 text-gray-900"
+                            >
+                                Preview
+                            </label>
+                            <div className="post mt-2">
+                                <Markdown>
+                                    {content}
+                                </Markdown>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
