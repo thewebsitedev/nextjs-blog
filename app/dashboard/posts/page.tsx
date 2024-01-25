@@ -1,10 +1,13 @@
-import DashboardPageLayout from '@/app/ui/dashboard/layout';
 import { Suspense } from "react";
+import DashboardPageLayout from '@/app/ui/dashboard/layout';
 import PostsTable from "@/app/ui/dashboard/posts/table";
 import { PostsTableSkeleton } from '@/app/ui/skeletons';
 import { ToastContainer } from 'react-toastify';
+import LinkButton from "@/app/ui/link";
+
 import 'react-toastify/dist/ReactToastify.css';
 
+// Dashboard posts page
 export default function DashboardPostsPage({
     searchParams,
   }: {
@@ -26,12 +29,11 @@ export default function DashboardPostsPage({
                     </p>
                 </div>
                 <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                    <a
+                    <LinkButton
                         href="/dashboard/posts/create"
                         className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                        Add post
-                    </a>
+                        content="Add post"
+                    />
                 </div>
             </div>
             <div className="-mx-4 mt-8 sm:-mx-0">

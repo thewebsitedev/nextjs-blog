@@ -1,27 +1,31 @@
 import DashboardPageLayout from "@/app/ui/dashboard/layout";
 import DashboardFormEditPost from "@/app/ui/dashboard/form-edit";
-import { fetchPostById } from "@/app/lib/data";
+import { fetchPostById, fetchCategories, fetchPostCategories } from "@/app/lib/data";
 import { notFound } from 'next/navigation';
-import { fetchCategories, fetchPostCategories } from "@/app/lib/data";
 import { ToastContainer } from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.css';
 
+// Dashboard edit post page
 export default async function DashboardEditPage({ params }: { params: { postid: string } }) {
-    // title, slug, content, summary, userId, status, featuredImage
+    // Get post id from params
     const id = params.postid;
+    // Fetch post by id
     const post = await fetchPostById(id);
 
+    // if post is not found, return 404
     if ( ! post ) {
         notFound();
     }
 
-    // combine the two fetches into one
+    // combine the two fetches
     const [categories, postCategories] = await Promise.all([
         fetchCategories(),
         id ? fetchPostCategories(id) : [],
     ]);
-    let selected: string[] = [];
 
+    // get the selected categories
+    let selected: string[] = [];
     if ( id ) {
         selected = postCategories.map((data: {categoryid: string}) => data.categoryid);
     }

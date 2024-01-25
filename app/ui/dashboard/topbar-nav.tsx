@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { classNames } from "@/app/lib/utilities";
+import { classNames } from "@/app/lib/utils";
 
 export default function DashboardTopBarNav() {
     const pathname = usePathname();

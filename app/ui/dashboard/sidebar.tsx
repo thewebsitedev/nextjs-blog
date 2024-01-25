@@ -10,7 +10,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import Image from 'next/image';
-import { classNames } from '@/app/lib/utilities';
+import { classNames } from '@/app/lib/utils';
 import { usePathname } from 'next/navigation';
 
 export default function DashboardSidebar({sidebarOpen, toggleSidebar} : {sidebarOpen: boolean, toggleSidebar: any}) {
@@ -67,7 +67,7 @@ export default function DashboardSidebar({sidebarOpen, toggleSidebar} : {sidebar
                     <div className="flex h-16 shrink-0 items-center">
                       <Image
                         className="h-8 w-auto"
-                        src="/logo.svg"
+                        src="/logo.png"
                         alt="The blog"
                         width={32}
                         height={32}
@@ -127,7 +127,7 @@ export default function DashboardSidebar({sidebarOpen, toggleSidebar} : {sidebar
             <div className="flex h-16 shrink-0 items-center">
               <Image
                 className="h-8 w-auto"
-                src="/logo.svg"
+                src="/logo.png"
                 alt="The blog"
                 width={32}
                 height={32}

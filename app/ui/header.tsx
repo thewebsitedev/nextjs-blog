@@ -12,7 +12,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import Login from './login';
 import type { Session } from 'next-auth';
 import Logout from './logout';
-import { classNames } from '@/app/lib/utilities';
+import { classNames } from '@/app/lib/utils';
 
 export default function Header({ session }:{ session: Session | null }) {
 
@@ -43,7 +43,7 @@ export default function Header({ session }:{ session: Session | null }) {
                 <div className="flex flex-shrink-0 items-center">
                   <Image
                     className="h-8 w-8"
-                    src="/logo.svg"
+                    src="/logo.png"
                     alt="logo"
                     width={32}
                     height={32}
@@ -120,7 +120,7 @@ export default function Header({ session }:{ session: Session | null }) {
                               <span className="sr-only">Open user menu</span>
                               <Image
                                 className="h-8 w-8 rounded-full"
-                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=64&h=64&q=80"
+                                src="/author.png"
                                 alt="user"
                                 width={32}
                                 height={32}
@@ -165,7 +165,6 @@ export default function Header({ session }:{ session: Session | null }) {
 
           <Disclosure.Panel className="lg:hidden">
             <div className="space-y-1 pb-3 pt-2">
-              {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800" */}
               <Disclosure.Button
                 as="a"
                 href="/"

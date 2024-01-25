@@ -1,58 +1,33 @@
-'use server';
+"use server";
 
-import { z } from 'zod';
-import { sql } from '@vercel/postgres';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-import slugify from 'react-slugify';
-import { auth, signIn, signOut, createUser } from '@/auth';
-import { AuthError } from 'next-auth';
-import { getUser } from './data';
-import { State, UserState } from './types';
-import { create } from 'domain';
+import { sql } from "@vercel/postgres";
+import { revalidatePath } from "next/cache";
+import { auth, signIn, signOut, createUser } from "@/auth";
+import { AuthError } from "next-auth";
+import { getUser } from "./data";
+import { State, UserState } from "./types";
+import { PostFormSchema, UserSchema } from "./schema";
+import slugify from "react-slugify";
 
-const PostFormSchema = z.object({
-    postid: z.string(),
-    title: z.string({
-        invalid_type_error: 'Please enter a title.',
-    }).min(10, {
-        message: 'Title must be at least 10 characters.',
-    }),
-    slug: z.string(),
-    summary: z.string(),
-    featuredimage: z.string(),
-    createdat: z.date(),
-    content: z.string({
-        invalid_type_error: 'Please enter content.',
-    }).min(100, {
-        message: 'Content must be at least 100 characters.',
-    }),
-    userid: z.string(),
-    status: z.enum(['published','draft', 'archived'], {
-        invalid_type_error: 'Please select a post status.',
-    }),
+// Use Zod to update the expected types
+const CreatePost = PostFormSchema.omit({
+    postid: true,
+    createdat: true,
+    slug: true,
+    summary: true,
+    featuredimage: true,
+    userid: true,
 });
 
-const UserSchema = z.object({
-    userid: z.string(),
-    name: z.string({
-        invalid_type_error: 'Please enter a name.',
-    }).min(2, {
-        message: 'Name must be at least 2 characters.',
-    }),
-    email: z.string()
-        .min(1, { message: "Please enter valid email address." })
-        .email("Please enter valid email address."),
-    password: z.string().min(2, {
-        message: 'Password must be minimum 6 characters.',
-    }),
-});
-
-const CreatePost = PostFormSchema.omit({ postid: true, createdat: true, slug: true, summary: true, featuredimage: true, userid: true });
-
-export async function createPostCategoryRelation(postid: string, categoryid: FormDataEntryValue) {
+// create post and category relation
+export async function createPostCategoryRelation(
+    postid: string,
+    categoryid: FormDataEntryValue
+) {
+    // get category id from form data
     const cid = categoryid.toString();
     try {
+        // insert into postcategories table
         await sql`
             INSERT INTO postcategories (categoryid, postid)
             VALUES (${cid}, ${postid})
@@ -60,24 +35,26 @@ export async function createPostCategoryRelation(postid: string, categoryid: For
     } catch (error) {
         // If a database error occurs, return a more specific error.
         return {
-            message: 'Database Error: Failed to create post category relationship.',
+            message:
+                "Database Error: Failed to create post category relationship.",
         };
     }
 }
 
+// create post
 export async function createPost(prevState: State, formData: FormData) {
     // throw new Error('Failed to add post');
     const validatedFields = CreatePost.safeParse({
-        title: formData.get('title'),
-        content: formData.get('content'),
-        status: formData.get('status')
+        title: formData.get("title"),
+        content: formData.get("content"),
+        status: formData.get("status"),
     });
 
     // If form validation fails, return errors early. Otherwise, continue.
-    if ( ! validatedFields.success ) {
+    if (!validatedFields.success) {
         return {
             errors: validatedFields.error.flatten().fieldErrors,
-            message: 'Missing Fields. Failed to Create Invoice.',
+            message: "Missing Fields. Failed to Create Invoice.",
         };
     }
 
@@ -92,37 +69,43 @@ export async function createPost(prevState: State, formData: FormData) {
     const email = session?.user?.email;
     const user = await getUser(email);
     // get categories
-    const categories = formData.getAll('category');
+    const categories = formData.getAll("category");
 
-    let postid = '';
+    let postid = "";
 
     try {
+        // Insert the new post into the database
         const newPost = await sql`
             INSERT INTO posts (title, content, status, createdat, slug, summary, userid)
             VALUES (${title}, ${content}, ${status}, NOW(), ${slug}, ${summary}, ${user.userid})
             RETURNING postid
         `;
+        // Get the postid of the newly created post
         postid = newPost.rows[0].postid;
     } catch (error) {
         // If a database error occurs, return a more specific error.
         return {
-            message: 'Database Error: Failed to Create Post.',
+            message: "Database Error: Failed to Create Post.",
         };
     }
 
+    // Create post category relationships
     if (categories.length > 0) {
-        Array.from(categories).map((category) => createPostCategoryRelation(postid, category));
+        Array.from(categories).map((category) =>
+            createPostCategoryRelation(postid, category)
+        );
     }
 
-    revalidatePath('/dashboard/posts');
+    // revalidate the cache
+    revalidatePath("/dashboard/posts");
 
-    return { message: 'success' };
-
-    // redirect('/dashboard/posts');
+    return { message: "success" };
 }
 
+// delete post category relation
 export async function deletePostCategoryRelation(postid: string) {
     try {
+        // delete from postcategories table
         await sql`
             DELETE FROM postcategories
             WHERE postid = ${postid}
@@ -130,40 +113,53 @@ export async function deletePostCategoryRelation(postid: string) {
     } catch (error) {
         // If a database error occurs, return a more specific error.
         return {
-            message: 'Database Error: Failed to delete post category relationship.',
+            message:
+                "Database Error: Failed to delete post category relationship.",
         };
     }
 }
 
-// Use Zod to update the expected types
-const UpdatePost = PostFormSchema.omit({ postid: true, createdat: true, summary: true, featuredimage: true, userid: true });
+// Use Zod to update the post expected types
+const UpdatePost = PostFormSchema.omit({
+    postid: true,
+    createdat: true,
+    summary: true,
+    featuredimage: true,
+    userid: true,
+});
 
-export async function updatePost(id: string, prevState: State, formData: FormData) {
-    // throw new Error('Failed to edit post');
+// update post
+export async function updatePost(
+    id: string,
+    prevState: State,
+    formData: FormData
+) {
+    // validate fields
     const validatedFields = UpdatePost.safeParse({
-        title: formData.get('title'),
-        content: formData.get('content'),
-        status: formData.get('status'),
-        slug: formData.get('slug'),
+        title: formData.get("title"),
+        content: formData.get("content"),
+        status: formData.get("status"),
+        slug: formData.get("slug"),
     });
 
-    if ( ! validatedFields.success ) {
-		return {
-		  errors: validatedFields.error.flatten().fieldErrors,
-		  message: 'Missing Fields. Failed to Update Invoice.',
-		};
-	}
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: "Missing Fields. Failed to Update Invoice.",
+        };
+    }
 
+    // Prepare data for insertion into the database
     const { title, content, status, slug } = validatedFields.data;
 
     // generate a summary from content
     const summary = content.substring(0, 200);
     // get categories
-    const categories = formData.getAll('category');
-    // get current date
-    // const updatedat = new Date().toISOString().split('T')[0];
+    const categories = formData.getAll("category");
 
     try {
+        // Update the post in the database
         await sql`
         UPDATE posts
         SET title = ${title}, content = ${content}, status = ${status}, summary = ${summary}, slug = ${slug}, updatedat = NOW()
@@ -171,117 +167,122 @@ export async function updatePost(id: string, prevState: State, formData: FormDat
         `;
     } catch (error) {
         return {
-            message: 'Database Error: Failed to Update Post.',
+            message: "Database Error: Failed to Update Post.",
         };
     }
 
-    // Delete all post category relationships
+    // Delete all old post category relationships
     await deletePostCategoryRelation(id);
 
+    // Create post category relationships
     if (categories.length > 0) {
-        Array.from(categories).map((category) => createPostCategoryRelation(id, category));
+        Array.from(categories).map((category) =>
+            createPostCategoryRelation(id, category)
+        );
     }
 
-    revalidatePath('/dashboard/posts');
+    // revalidate the cache
+    revalidatePath("/dashboard/posts");
 
-    return { message: 'success' };
-    // redirect('/dashboard/posts');
+    return { message: "success" };
 }
 
+// delete post using post id
 export async function deletePost(id: string) {
-    // throw new Error('Failed to delete post');
     try {
         // first delete all post category relationships
         await deletePostCategoryRelation(id);
         // then delete the post
         await sql`DELETE FROM posts WHERE postid = ${id}`;
-        
-        revalidatePath('/dashboard/posts');
-        return { message: 'success' };
+        // revalidate the cache
+        revalidatePath("/dashboard/posts");
+
+        return { message: "success" };
     } catch (error) {
         return {
-            message: 'Database Error: Failed to Delete Post.',
+            message: "Database Error: Failed to Delete Post.",
         };
     }
 }
 
-// Use Zod to update the expected types
+// Use Zod to update the user expected types
 const User = UserSchema.omit({ userid: true });
 
-export async function signUp(
-    prevState: UserState,
-    formData: FormData,
-) {
-    // Validate the input data as necessary
+// create new user
+export async function signUp(prevState: UserState, formData: FormData) {
+    // Validate the input data
     const validatedFields = User.safeParse({
-        name: formData.get('name'),
-        email: formData.get('email'),
-        password: formData.get('password'),
+        name: formData.get("name"),
+        email: formData.get("email"),
+        password: formData.get("password"),
     });
 
-    if ( ! validatedFields.success ) {
-		return {
-		  errors: validatedFields.error.flatten().fieldErrors,
-		  message: 'Missing Fields. Failed to ceate user.',
-		};
-	}
-
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: "Missing Fields. Failed to ceate user.",
+        };
+    }
+    // Prepare data for insertion into the database
     const { name, email, password } = validatedFields.data;
 
-    // Call createUser to register the new user
     try {
+        // Call createUser to register the new user
         await createUser(name, email, password);
     } catch (error) {
         // If a database error occurs, return a more specific error.
         return {
-            message: 'Database Error: Failed to Create User.'
+            message: "Database Error: Failed to Create User.",
         };
     }
 
-    // after registeration, sign in the user
     try {
-        await signIn('credentials', formData);
+        // after registeration, sign in the user
+        await signIn("credentials", formData);
     } catch (error) {
+        // If a database error occurs, return a more specific error.
         if (error instanceof AuthError) {
             switch (error.type) {
-            case 'CredentialsSignin':
-                return {
-                    message: 'Invalid credentials.'
-                };
-            default:
-                return {
-                    message: 'Something went wrong.'
-                };
+                case "CredentialsSignin":
+                    return {
+                        message: "Invalid credentials.",
+                    };
+                default:
+                    return {
+                        message: "Something went wrong.",
+                    };
             }
         }
     }
 
-    console.log('user created successfully');
-
-    return {
-        message: 'success'
-    };
+    return { message: "success" };
 }
 
+// login user
 export async function authenticate(
     prevState: string | undefined,
-    formData: FormData,
-  ) {
+    formData: FormData
+) {
     try {
-      await signIn('credentials', formData);
+        // Call signIn to authenticate the user
+        await signIn("credentials", formData);
     } catch (error) {
-      if (error instanceof AuthError) {
-        switch (error.type) {
-          case 'CredentialsSignin':
-            return 'Invalid credentials.';
-          default:
-            return 'Something went wrong.';
+        // If a database error occurs, return a more specific error.
+        if (error instanceof AuthError) {
+            switch (error.type) {
+                case "CredentialsSignin":
+                    return "Invalid credentials.";
+                default:
+                    return "Something went wrong.";
+            }
         }
-      }
-      throw error;
+        throw error;
     }
 }
 
+// logout user
 export async function logout() {
+    // Call signOut to logout the user
     await signOut();
 }

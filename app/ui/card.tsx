@@ -1,12 +1,14 @@
-import { fetchPostCategories } from "../lib/data";
+import { fetchPostCategories, getUserById } from "../lib/data";
 import Image from "next/image";
 import { Post } from "@/app/lib/types";
 import slugify from "react-slugify";
 import moment from "moment";
 import Markdown from 'react-markdown'
+import { getRandomThumbnail } from "../lib/utils";
 
 export default async function Card({ post }: { post: Post}) {
     const categories = await fetchPostCategories(post.postid);
+    const user = await getUserById(post.userid);
     return (
         <article
             key={post.postid}
@@ -14,8 +16,8 @@ export default async function Card({ post }: { post: Post}) {
         >
             <div className="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-64 lg:shrink-0">
 				<Image
-					src="https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3603&q=80"
-					alt=""
+					src={getRandomThumbnail()}
+					alt={post.title}
 					className="absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover scale-100 top-0 start-0 transition-transform duration-500 ease-in-out hover:scale-105"
 					width={256}
 					height={256}
@@ -53,7 +55,7 @@ export default async function Card({ post }: { post: Post}) {
                 <div className="mt-6 flex border-t border-gray-900/5 pt-6">
                     <div className="relative flex items-center gap-x-4">
                         <Image
-                            src={`https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80`}
+                            src="/author.png"
                             alt={post.title}
                             className="h-10 w-10 rounded-full bg-gray-50"
                             width={40}
@@ -61,9 +63,9 @@ export default async function Card({ post }: { post: Post}) {
                         />
                         <div className="text-sm leading-6">
                             <p className="font-semibold text-gray-900">
-                                <a href={``}>
+                                <a href={slugify(user?.name)}>
                                     <span className="absolute inset-0" />
-                                    Michael Foster
+                                    {user?.name}
                                 </a>
                             </p>
                             <p className="text-gray-600">Co-Founder / CTO</p>

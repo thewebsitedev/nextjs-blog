@@ -2,12 +2,14 @@ import DashboardPageLayout from "@/app/ui/dashboard/layout";
 import DashboardFormCreatePost from "@/app/ui/dashboard/form-create";
 import { fetchCategories } from "@/app/lib/data";
 import { ToastContainer } from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.css';
 
+// Dashboard create post page
 export default async function DashboardPage() {
-    // title, slug, content, summary, userId, status, featuredImage
+    // Fetch all categories
     const categories = await fetchCategories();
-    
+
     return (
         <DashboardPageLayout>
             <ToastContainer />

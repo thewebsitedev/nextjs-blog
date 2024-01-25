@@ -25,14 +25,17 @@ export default async function Posts({
                 <p className="mt-2 text-lg leading-6 sm:leading-8 text-gray-600">
                     Learn how to grow your business with our expert advice.
                 </p>
+                {posts.length ? 
                 <div className="mt-8 space-y-8 sm:space-y-12 lg:space-y-16 lg:mt-12">
                     {posts.map((post) => (
                         <Card key={post.postid} post={post} />
                     ))}
-                </div>
+                </div> : <div className="text-gray-400 italic mt-12">Sorry, no posts found. Please try a different search.</div>
+                }
             </div>
+            {posts.length ? <>
             <div className="mt-8 sm:mt-12 lg:mt-16"></div>
-            <DashboardPagination totalPages={totalPages} totalPosts={totalPosts} page={currentPage} />
+            <DashboardPagination totalPages={totalPages} totalPosts={totalPosts} page={currentPage} /></> : ''}
         </div>
     );
 }
