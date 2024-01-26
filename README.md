@@ -1,6 +1,8 @@
 ### Introduction
 NextGen blog is an efficient, scalable, and user-friendly web application. Utilizing Next.js 14, the latest version of the React framework, this application not only embraces server-side rendering and static site generation for optimal performance but also leverages the recently introduced partial prerendering in Next.js 14.
 
+- Live Demo: https://nextjs-blog-delta-one-66.vercel.app/
+
 #### Folder Structure
 
 - **/app**: Contains all the routes, components, and logic for the application.
@@ -12,7 +14,6 @@ NextGen blog is an efficient, scalable, and user-friendly web application. Utili
 ### Project Setup
 
 #### Cloning the Repository
-
 First, clone the repository to your local machine using Git. Open a terminal and run the following command:
 
 ```
@@ -58,6 +59,16 @@ yarn dev
 Or using vercel
 ```
 vercel dev
+```
+
+#### Seeding the Database
+To seed the database with some dummy data, run the following command:
+```
+npm run seed
+```
+Or if you're using yarn:
+```
+yarn seed
 ```
 
 Open [http://localhost:3000](http://localhost:3000) on a browser to see the result.
