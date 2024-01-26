@@ -41,7 +41,7 @@ You will need to setup a vercel account and connect it to your GitHub account. Y
 
 Next, import your repository to Vercel. You can follow the [guide on Vercel](https://vercel.com/docs/git-integrations/vercel-for-github). Once done, you can deploy the project by clicking on the deploy button. You can follow the [guide on Vercel](https://vercel.com/docs/platform/deployments).
 
-Once the project is deployed, you will need to create a Postgres databased on Vercel. On the project page, select the storage tab. Select Connect Store, and then select Postgres under connect new and then click continue. Name your database and click create. Once connected, got to .env.local tab, click show secret and copy snippet.
+Once the project is deployed, you will need to create a Postgres databased on Vercel. On the project page, select the storage tab. Select Connect Store, and then select Postgres under connect new and then click continue. Name your database and click create. Once connected, go to .env.local tab, click show secret and copy snippet.
 
 #### Configuring Environment Variables
 The project requires certain environment variables to be set for features like database access and authentication to work correctly. You'll need to create a .env.local file in the root of the project directory. Here's a template of what should be included:
