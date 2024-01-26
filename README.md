@@ -44,6 +44,7 @@ Next, import your repository to Vercel. You can follow the [guide on Vercel](htt
 Once the project is deployed, you will need to create a Postgres databased on Vercel. On the project page, select the storage tab. Select Connect Store, and then select Postgres under connect new and then click continue. Name your database and click create. Once connected, go to .env.local tab, click show secret and copy snippet.
 
 #### Configuring Environment Variables
+
 The project requires certain environment variables to be set for features like database access and authentication to work correctly. You'll need to create a .env.local file in the root of the project directory. Here's a template of what should be included:
 
 ```
@@ -64,6 +65,18 @@ You will need to add the copied snippet in the previous step to the .env.local f
 
 > Note: for auth url use "http://localhost:3000/api/auth".
 
+> Note: add `SECRET` and `AUTH_SECRET` to vercel environment variables. Go to project page, click settings tab and then click environment variables tab. Add the variables and click save. Thsi is required for authentication to work properly.
+
+#### Seeding the Database
+To seed the database with some dummy data, run the following command:
+```
+npm run seed
+```
+Or if you're using yarn:
+```
+yarn seed
+```
+
 #### Running the Project
 Finally, you can run the project in development mode using the following command:
 ```
@@ -77,18 +90,6 @@ Or using vercel
 ```
 vercel dev
 ```
-
-#### Seeding the Database
-To seed the database with some dummy data, run the following command:
-```
-npm run seed
-```
-Or if you're using yarn:
-```
-yarn seed
-```
-
-Open [http://localhost:3000](http://localhost:3000) on a browser to see the result.
 
 ### CSS Framework
 By integrating Tailwind CSS, a utility-first CSS framework, the project benefits from a highly customizable and responsive design, ensuring that the blog is as aesthetically pleasing as it is functional. Tailwind's component-friendly architecture, coupled with Headless UI and Heroicons, enables a rich, interactive user interface without sacrificing accessibility or usability.
