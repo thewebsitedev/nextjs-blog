@@ -31,6 +31,18 @@ Or if you prefer using yarn, simply run:
 yarn
 ```
 
+#### Setup Repository
+
+You will need to setup a repository on GitHub and push the code to the repository. You can follow the [guide on Github](https://help.github.com/en/github/getting-started-with-github/create-a-repo).
+
+#### Setup Vercel
+
+You will need to setup a vercel account and connect it to your GitHub account. You can follow the [guide on Vercel](https://vercel.com/docs/git-integrations). If you don't already have an account then you can create one [here](https://vercel.com/signup). Once done, select the free hobby plan.
+
+Next, import your repository to Vercel. You can follow the [guide on Vercel](https://vercel.com/docs/git-integrations/vercel-for-github). Once done, you can deploy the project by clicking on the deploy button. You can follow the [guide on Vercel](https://vercel.com/docs/platform/deployments).
+
+Once the project is deployed, you will need to create a Postgres databased on Vercel. On the project page, select the storage tab. Select Connect Store, and then select Postgres under connect new and then click continue. Name your database and click create. Once connected, got to .env.local tab, click show secret and copy snippet.
+
 #### Configuring Environment Variables
 The project requires certain environment variables to be set for features like database access and authentication to work correctly. You'll need to create a .env.local file in the root of the project directory. Here's a template of what should be included:
 
@@ -42,10 +54,15 @@ POSTGRES_USER=
 POSTGRES_HOST=
 POSTGRES_PASSWORD=
 POSTGRES_DATABASE=
+
 AUTH_SECRET=
 AUTH_URL=
 ```
-> Note: I will send the variables I used in the email.
+You will need to add the copied snippet in the previous step to the .env.local file. Rename .env.example in the project root folder to .env.local and add the copied snippet to the file replacing the postgres variables.
+
+> Note: generate auth secret using this command `openssl rand -base64 32` in your terminal.
+
+> Note: for auth url use "http://localhost:3000/api/auth".
 
 #### Running the Project
 Finally, you can run the project in development mode using the following command:
