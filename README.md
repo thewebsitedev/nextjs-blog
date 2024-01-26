@@ -91,6 +91,15 @@ Or using vercel
 vercel dev
 ```
 
+#### Login details
+
+You can login using the following credentials:
+
+```
+email: user[at]thewebsitedev.com
+password: 123456
+```
+
 ### CSS Framework
 By integrating Tailwind CSS, a utility-first CSS framework, the project benefits from a highly customizable and responsive design, ensuring that the blog is as aesthetically pleasing as it is functional. Tailwind's component-friendly architecture, coupled with Headless UI and Heroicons, enables a rich, interactive user interface without sacrificing accessibility or usability.
 
